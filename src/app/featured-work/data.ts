@@ -1,0 +1,88 @@
+const featuredFilms = [
+  {
+    slug: "chidiya",
+    title: "Chidiya",
+    year: "2017",
+    category: "Feature Film",
+    runtime: "Feature",
+    platform: "Festival & Theatrical",
+    poster: "/images/chidiya-1920x1080.webp",
+    posterPortrait: "/images/chidiya-1000x1500.webp",
+    synopsis:
+      "A heartwarming tale of dreams, resilience and joy amid scarcity in a Mumbai chawl. Chidiya is a love letter to childhood resilience—finding joy in scarcity, and how children's imagination turns even the smallest spaces into worlds of their own.",
+    cast: ["Vinay Pathak", "Amruta Subhash", "Svar Kamble", "Ayush Pathak"],
+    trailerUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+  },
+  {
+    slug: "teen-do-paanch",
+    title: "Teen Do Paanch",
+    year: "2021",
+    category: "Web Series",
+    runtime: "Series",
+    platform: "Digital",
+    poster: "/images/tdp-1920x1080.webp",
+    posterPortrait: "/images/tdp-1000x1500.webp",
+    synopsis:
+      "The 8 million-view mark is a validation of the effort we put in the show. A story that resonated with audiences across the country.",
+    cast: ["Shreyas Talpade", "Bidita Bag"],
+    trailerUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+  },
+  {
+    slug: "meethi-eid",
+    title: "Meethi Eid",
+    year: "2020",
+    category: "Web / Short",
+    runtime: "Short",
+    platform: "ZEE5",
+    poster: "/images/meethi-eid-1920x1080.webp",
+    posterPortrait: "/images/meethi-eid-1000x1500.webp",
+    synopsis:
+      "Rahila and Jyoti come from different communities, but prove that their soulful innocent friendship is over everything.",
+    cast: ["Rahila", "Jyoti"],
+    trailerUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+  },
+  {
+    slug: "rishtey-mein-toh-hum-tumhare",
+    title: "Rishtey Mein Toh Hum Tumhare",
+    year: "2020",
+    category: "Web Series",
+    runtime: "Series",
+    platform: "Digital",
+    poster: "/images/rmtht-1920x1080.webp",
+    posterPortrait: "/images/rmtht-1000x1500.webp",
+    synopsis:
+      "A sweet tale about the strong relationship of a father and son.",
+    cast: [],
+    trailerUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+  },
+  {
+    slug: "tara-bhaiya-zindabad",
+    title: "Tara Bhaiya Zindabad",
+    year: "—",
+    category: "Web Series",
+    runtime: "Series",
+    platform: "Watcho",
+    poster: "/images/tara-bhaiya-zindabad-1920x1080.webp",
+    posterPortrait: "/images/tara-bhaiya-zindabad-1000x1500.webp",
+    synopsis:
+      "The heart-warming story revolves around the steps and deceit Tara Bhaiya undertakes to safeguard his election candidacy and keep the 'Pradhani' in his family.",
+    cast: [],
+    trailerUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+  },
+  {
+    slug: "honeymoon-trip",
+    title: "Honeymoon Trip",
+    year: "—",
+    category: "Web / Content",
+    runtime: "Series",
+    platform: "Digital",
+    poster: "/images/honeymoon-trip-options-3---1920x1080.webp",
+    posterPortrait: "/images/honeymoon-trip-1000x1500.webp",
+    synopsis: "A production from Smiley Films.",
+    cast: [],
+    trailerUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+  },
+];
+
+export type Film = (typeof featuredFilms)[number];
+export { featuredFilms };

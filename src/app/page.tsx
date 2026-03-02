@@ -1,634 +1,801 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
+import { useRef, useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import Image from "next/image";
-import { useState } from "react";
+import Link from "next/link";
+import { featuredFilms } from "@/app/featured-work/data";
+import { teamMembers } from "@/app/team/data";
+import { pressItems } from "@/app/media/press/data";
 
-const fadeUp = {
-  initial: { opacity: 0, y: 40 },
-  animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
-};
+const TAGLINE = "Touching Emotional Chords Since 2017";
+const DESCRIPTION =
+  "Smiley Films is a Mumbai-based production house delivering heartfelt, world-class films and web shows. We tell stories that leave a lasting impact.";
 
-const stagger = {
-  animate: {
-    transition: {
-      staggerChildren: 0.1,
-    },
+const aboutSections = [
+  {
+    id: "company",
+    title: "The Company",
+    content:
+      "Born in Mumbai, Smiley Films is a production house engaged in Feature Films, Short Films and Web Content. We bring together strong industry alliances, in-house production, and end-to-end post-production facilities to deliver cinematic excellence. Since 2017, we have built a creative portfolio that is as diverse as it is immersive, earning the trust of clients and collaborators across the industry.",
+    icon: "company",
   },
-};
+  {
+    id: "vision",
+    title: "Vision",
+    content:
+      "To be the creative force that brings India's diverse stories to a global stage.",
+    icon: "vision",
+  },
+  {
+    id: "mission",
+    title: "Mission",
+    content:
+      "To produce culturally rooted content across Film and Digital, delivering creative excellence through strong collaborations and a cost-efficient approach.",
+    icon: "mission",
+  },
+  {
+    id: "culture",
+    title: "Culture",
+    content:
+      "At Smiley Films, we believe the best stories are born when varied voices, bold ideas, and driven people come together as one.",
+    icon: "culture",
+  },
+];
 
-const films = [
+const stats = [
+  { value: "30+", label: "Projects delivered" },
+  { value: "15+", label: "Years of experience" },
+  { value: "10+", label: "Awards won" },
+  { value: "20+", label: "Industry trust" },
+];
+
+const awards = [
   {
-    duration: "157 MIN",
-    rating: "7.9",
-    image:
-      "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=400&q=80",
+    year: "2017",
+    title: "Second Best Film (Golden Knight)",
+    event: "Golden Knight International Film Festival",
+    location: "Russia",
   },
   {
-    duration: "120 MIN",
-    rating: "8.5",
-    image:
-      "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=400&q=80",
+    year: "2017",
+    title: "Second Best Film (Golden Elephant)",
+    event: "ICFFI",
+    location: "Hyderabad",
   },
   {
-    duration: "120 MIN",
-    rating: "8.2",
-    image:
-      "https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=400&q=80",
+    year: "2016",
+    title: "Best Debutant Director",
+    event: "South Asia International Film Festival",
+    location: "New York",
   },
   {
-    duration: "120 MIN",
-    rating: "8.2",
-    image:
-      "https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=400&q=80",
+    year: "2016",
+    title: "Best Debutant Director",
+    event: "Dadasaheb Phalke International Film Festival",
+    location: "New Delhi",
+  },
+  {
+    year: "2016",
+    title: "Best Film",
+    event: "Smile International Film Festival",
+    location: "New Delhi",
   },
 ];
 
 const services = [
   {
     title: "Film Productions",
-    desc: "Filmmaking involves a number of complex and discrete stages, starting with an initial story, idea, or commission.",
+    description:
+      "Full-scale feature film production from script to screen with world-class crew.",
   },
   {
-    title: "Web Series Production",
-    desc: "Creating compelling episodic content that captivates audiences across digital platforms.",
+    title: "Web Series",
+    description:
+      "Binge-worthy episodic content crafted for modern streaming platforms.",
   },
   {
-    title: "Short Films Production",
-    desc: "Crafting powerful narratives in concise formats that leave lasting impressions.",
+    title: "Short Films",
+    description:
+      "Powerful storytelling in compact format for festivals and digital release.",
   },
   {
-    title: "Music Videos Production",
-    desc: "Visual storytelling that elevates music and creates unforgettable artistic experiences.",
+    title: "Music Videos",
+    description:
+      "Visual storytelling that amplifies the soul of every musical composition.",
   },
   {
-    title: "Branded Content Production",
-    desc: "Authentic storytelling that connects brands with audiences through meaningful narratives.",
+    title: "Branded Content",
+    description:
+      "Premium content that weaves brand narratives into compelling stories.",
   },
   {
-    title: "Promotional & Corporate Films",
-    desc: "Professional productions that communicate your message with impact and polish.",
+    title: "Corporate Films",
+    description:
+      "Professional productions that elevate your business communication.",
   },
 ];
 
-const testimonials = [
-  {
-    quote:
-      "Odio sed placerat ac suspendisse dignissim leo ridiculus tellus egestas. Cras aenean adipiscing vivamus finibus letius.",
-    name: "Tantowi",
-    role: "Producer",
-  },
-  {
-    quote:
-      "Mattis finibus quam primis in suscipit est placerat. Eu ipsum pharetra ultricies est vestibulum fringilla nisi curabitur.",
-    name: "Marini",
-    role: "Director",
-  },
-];
-
-const team = [
-  {
-    name: "Faqhrul Husaini",
-    role: "Partner",
-    bio: "Over 15 years of experience in production and filmmaking. Worked across journalism, documentaries, television and films with major production houses. Commerce post graduate with interest in politics and modern history.",
-  },
-  {
-    name: "Mehran Amrohi",
-    role: "Partner",
-    bio: "Multiple international film award winning producer/director with 15+ years experience. Developed TV/web shows and films. Directorial debut 'Chidiya' has won many awards globally. Engineering from Jamia University, renowned Ghazal Shaayar.",
-  },
-];
-
-const navLinks = [
-  { href: "#about", label: "About" },
-  { href: "#works", label: "Works" },
-  { href: "#services", label: "Services" },
-  { href: "#team", label: "Team" },
-  { href: "#contact", label: "Connect" },
-];
+const fadeInUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 },
+};
 
 export default function Home() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const featuredScrollRef = useRef<HTMLDivElement>(null);
+  const pressScrollRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeftF, setCanScrollLeftF] = useState(false);
+  const [canScrollRightF, setCanScrollRightF] = useState(true);
+  const [canScrollLeftP, setCanScrollLeftP] = useState(false);
+  const [canScrollRightP, setCanScrollRightP] = useState(true);
+
+  const updateScrollState = (
+    ref: React.RefObject<HTMLDivElement | null>,
+    setLeft: (v: boolean) => void,
+    setRight: (v: boolean) => void,
+  ) => {
+    const el = ref.current;
+    if (!el) return;
+    setLeft(el.scrollLeft > 0);
+    setRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 10);
+  };
+
+  useEffect(() => {
+    const run = () => {
+      updateScrollState(
+        featuredScrollRef,
+        setCanScrollLeftF,
+        setCanScrollRightF,
+      );
+      updateScrollState(pressScrollRef, setCanScrollLeftP, setCanScrollRightP);
+    };
+    run();
+    featuredScrollRef.current?.addEventListener("scroll", run);
+    pressScrollRef.current?.addEventListener("scroll", run);
+    window.addEventListener("resize", run);
+    return () => {
+      featuredScrollRef.current?.removeEventListener("scroll", run);
+      pressScrollRef.current?.removeEventListener("scroll", run);
+      window.removeEventListener("resize", run);
+    };
+  }, []);
+
+  const scrollSlider = (
+    ref: React.RefObject<HTMLDivElement | null>,
+    dir: "left" | "right",
+  ) => {
+    const el = ref.current;
+    if (!el) return;
+    el.scrollBy({
+      left: dir === "left" ? -el.clientWidth * 0.6 : el.clientWidth * 0.6,
+      behavior: "smooth",
+    });
+  };
 
   return (
-    <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">
-      {/* Navigation */}
-      <motion.nav
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4 }}
-        className="fixed top-0 left-0 right-0 z-50 border-b border-zinc-800/60 bg-[var(--background)]/95 backdrop-blur-sm"
+    <>
+      {/* ——— HERO ——— */}
+      <section
+        id="home"
+        className="relative flex min-h-screen flex-col justify-center pt-20 overflow-hidden"
       >
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6 lg:px-12">
-          <a href="#" className="flex items-center">
-            <Image
-              src="https://smileyfilms.in/wp-content/uploads/sites/36/elementor/thumbs/logo-small.png"
-              alt="Smiley Films"
-              width={130}
-              height={34}
-              className="h-8 w-auto object-contain"
-              priority
-            />
-          </a>
-          <div className="hidden items-center gap-8 md:flex">
-            {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                onClick={() => setMobileMenuOpen(false)}
-                className="text-sm font-medium text-zinc-400 transition-colors hover:text-zinc-100"
-              >
-                {link.label}
-              </a>
-            ))}
-          </div>
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="flex h-10 w-10 flex-col items-center justify-center gap-1.5 text-zinc-400 md:hidden"
-            aria-label="Toggle menu"
-          >
-            <span
-              className={`block h-0.5 w-6 bg-current transition-transform ${
-                mobileMenuOpen ? "translate-y-2 rotate-45" : ""
-              }`}
-            />
-            <span
-              className={`block h-0.5 w-6 bg-current transition-opacity ${
-                mobileMenuOpen ? "opacity-0" : ""
-              }`}
-            />
-            <span
-              className={`block h-0.5 w-6 bg-current transition-transform ${
-                mobileMenuOpen ? "-translate-y-2 -rotate-45" : ""
-              }`}
-            />
-          </button>
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="gradient-orb gradient-orb-1 animate-pulse-glow" />
+          <div className="gradient-orb gradient-orb-2 animate-pulse-glow" />
+          <div className="gradient-orb gradient-orb-3 animate-pulse-glow" />
+          <div className="gradient-orb gradient-orb-4 animate-pulse-glow" />
         </div>
-      </motion.nav>
-
-      {/* Mobile menu */}
-      <AnimatePresence>
-        {mobileMenuOpen && (
+        <div className="absolute inset-0">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-40 bg-black/95 backdrop-blur-lg md:hidden"
-            onClick={() => setMobileMenuOpen(false)}
+            transition={{ duration: 1.2, ease: "easeOut" }}
+            className="absolute inset-0"
           >
-            <motion.div
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              className="flex flex-col items-center justify-center gap-8 pt-24"
-              onClick={(e) => e.stopPropagation()}
-            >
-              {navLinks.map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="font-display text-xl font-light text-zinc-300 hover:text-white"
-                >
-                  {link.label}
-                </a>
-              ))}
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Hero */}
-      <section className="relative flex min-h-screen items-center justify-center overflow-hidden pt-20 pb-20">
-        <div className="absolute inset-0 bg-[var(--background)]" />
-
-        <motion.div
-          initial="initial"
-          animate="animate"
-          variants={stagger}
-          className="relative z-10 mx-auto max-w-4xl px-6 text-center"
-        >
-          <motion.p
-            variants={fadeUp}
-            className="mb-6 text-xs font-medium uppercase tracking-[0.2em] text-zinc-500"
-          >
-            Mumbai-based Production House · Since 2017
-          </motion.p>
-          <motion.h1
-            variants={fadeUp}
-            className="font-display text-4xl font-light leading-[1.2] tracking-tight text-zinc-100 sm:text-6xl md:text-7xl"
-          >
-            SMILEY, TOUCHING
-            <br />
-            EMOTIONAL CHORDS
-          </motion.h1>
-          <motion.p
-            variants={fadeUp}
-            className="mx-auto mt-8 max-w-lg text-base text-zinc-500"
-          >
-            We are thrilled to announce the commencement of production on our
-            next feature film.
-          </motion.p>
-          <motion.a
-            variants={fadeUp}
-            href="#contact"
-            className="mt-12 mb-20 inline-block border border-zinc-600 px-8 py-3 text-sm font-medium uppercase tracking-widest text-zinc-400 transition-colors hover:border-zinc-400 hover:text-zinc-100"
-          >
-            Connect
-          </motion.a>
-        </motion.div>
-
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2">
-          <motion.div
-            animate={{ y: [0, 6, 0] }}
-            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-            className="h-8 w-px bg-zinc-600"
-          />
-        </div>
-      </section>
-
-      {/* About */}
-      <section id="about" className="relative py-24 md:py-32">
-        <div className="mx-auto max-w-6xl px-6 lg:px-12">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.5 }}
-            className="grid gap-12 lg:grid-cols-2 lg:gap-20"
-          >
-            <div>
-              <span className="text-xs font-medium uppercase tracking-[0.2em] text-zinc-500">
-                About Us
-              </span>
-              <h2 className="mt-3 font-display text-3xl font-light text-zinc-100 sm:text-4xl md:text-5xl">
-                Filming experience
-                <br />
-                just got better
-              </h2>
-            </div>
-            <div className="space-y-5">
-              <p className="text-base leading-relaxed text-zinc-400">
-                Smiley Films is a Mumbai based Production House, engaged with
-                Feature Films, Short Films, Digital Content and Advertisement /
-                Promotional Films with strong industry alliances, in-house
-                production and post-production facilities.
-              </p>
-              <p className="text-base leading-relaxed text-zinc-400">
-                It has been delivering international quality content since 2017
-                across various domains of entertainment business.
-              </p>
-              <a
-                href="#services"
-                className="inline-flex items-center gap-2 text-sm font-medium text-zinc-500 transition-colors hover:text-zinc-300 hover:gap-3"
-              >
-                Discover More
-                <span>→</span>
-              </a>
-            </div>
+            <Image
+              src="/images/chidiya-1920x1080.webp"
+              alt="Smiley Films"
+              fill
+              className="object-cover object-center opacity-25"
+              priority
+              sizes="100vw"
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-[var(--bg)] via-transparent to-[var(--bg)]" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[var(--bg)] via-transparent to-[var(--bg)]/50" />
           </motion.div>
         </div>
-      </section>
 
-      {/* Vision & Mission */}
-      <section className="border-y border-zinc-800/60 bg-[var(--surface)] py-20">
-        <div className="mx-auto max-w-6xl px-6 lg:px-12">
+        <div className="relative z-10 mx-auto w-full max-w-7xl px-6 md:px-12 text-center">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="grid gap-12 md:grid-cols-3"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4, duration: 0.8 }}
+            className="inline-flex items-center gap-2 px-5 py-2 rounded-full glass-glow mb-6"
           >
-            <div>
-              <h3 className="font-display text-xl font-light text-zinc-200">
-                Our Vision
-              </h3>
-              <p className="mt-3 text-sm leading-relaxed text-zinc-500">
-                To become diverse and innovative content creation production
-                company.
-              </p>
-            </div>
-            <div>
-              <h3 className="font-display text-xl font-light text-zinc-200">
-                Our Mission
-              </h3>
-              <p className="mt-3 text-sm leading-relaxed text-zinc-500">
-                To create high quality content originating from our diverse
-                culture, languages and regions in cost efficient approach.
-              </p>
-            </div>
-            <div>
-              <h3 className="font-display text-xl font-light text-zinc-200">
-                Our Motto
-              </h3>
-              <p className="mt-3 text-sm leading-relaxed text-zinc-500">
-                Talent with diligence.
-              </p>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* We Make It Happen */}
-      <section className="py-24 md:py-32">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mx-auto max-w-6xl px-6 text-center lg:px-12"
-        >
-          <p className="font-display text-4xl font-light tracking-tight text-zinc-300 sm:text-5xl md:text-6xl lg:text-7xl">
-            WE MAKE IT HAPPEN
-          </p>
-        </motion.div>
-      </section>
-
-      {/* Our Works */}
-      <section id="works" className="relative py-24 md:py-32">
-        <div className="mx-auto max-w-6xl px-6 lg:px-12">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="mb-12"
-          >
-            <span className="text-xs font-medium uppercase tracking-[0.2em] text-zinc-500">
-              Portfolio
+            <span className="w-2 h-2 rounded-full bg-[var(--accent)] animate-pulse" />
+            <span className="text-[12px] uppercase tracking-widest text-[var(--accent)]">
+              {TAGLINE}
             </span>
-            <h2 className="mt-3 font-display text-3xl font-light text-zinc-100 sm:text-4xl">
-              Our Works
-            </h2>
           </motion.div>
 
-          <motion.div
-            initial="initial"
-            whileInView="animate"
-            viewport={{ once: true, margin: "-50px" }}
-            variants={stagger}
-            className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4"
+          <motion.p
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6, duration: 0.7 }}
+            className="max-w-2xl mx-auto text-lg text-[var(--fg-muted)] leading-relaxed md:text-xl"
           >
-            {films.map((film, i) => (
-              <motion.div
-                key={i}
-                variants={fadeUp}
-                className="group relative aspect-[3/4] overflow-hidden bg-[var(--surface-elevated)]"
-              >
-                <div
-                  className="absolute inset-0 bg-cover bg-center opacity-60"
-                  style={{
-                    backgroundImage: `url(${film.image})`,
-                  }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent" />
-                <div className="absolute bottom-0 left-0 right-0 p-5">
-                  <div className="flex items-center gap-3 text-xs text-zinc-400">
-                    <span>{film.duration}</span>
-                    <span>{film.rating} Rating</span>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
+            {DESCRIPTION}
+          </motion.p>
+
           <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            className="mt-10 text-center"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.9 }}
+            className="mt-12 flex flex-wrap justify-center gap-4"
           >
             <a
-              href="#contact"
-              className="inline-block border border-zinc-600 px-6 py-2.5 text-xs font-medium uppercase tracking-widest text-zinc-400 transition-colors hover:border-zinc-500 hover:text-zinc-300"
+              href="#featured-work"
+              className="btn-primary px-10 py-4 text-[12px] font-semibold uppercase tracking-widest rounded-full"
             >
-              See More
+              Featured Work
+            </a>
+            <a
+              href="#contact"
+              className="btn-outline px-10 py-4 text-[12px] font-medium uppercase tracking-widest rounded-full"
+            >
+              Start a conversation
             </a>
           </motion.div>
         </div>
-      </section>
 
-      {/* Services */}
-      <section
-        id="services"
-        className="border-t border-zinc-800/60 bg-[var(--surface)] py-24 md:py-32"
-      >
-        <div className="mx-auto max-w-6xl px-6 lg:px-12">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="mb-14"
-          >
-            <span className="text-xs font-medium uppercase tracking-[0.2em] text-zinc-500">
-              What We Offer
-            </span>
-            <h2 className="mt-3 font-display text-3xl font-light text-zinc-100 sm:text-4xl">
-              Our Services
-            </h2>
-          </motion.div>
-
-          <motion.div
-            initial="initial"
-            whileInView="animate"
-            viewport={{ once: true, margin: "-50px" }}
-            variants={stagger}
-            className="grid gap-4 md:grid-cols-2 lg:grid-cols-3"
-          >
-            {services.map((service, i) => (
-              <motion.div
-                key={i}
-                variants={fadeUp}
-                className="border border-zinc-800/60 bg-[var(--background)] p-6 transition-colors hover:border-zinc-700/60"
-              >
-                <h3 className="font-display text-lg font-light text-zinc-200">
-                  {service.title}
-                </h3>
-                <p className="mt-3 text-sm leading-relaxed text-zinc-500">
-                  {service.desc}
-                </p>
-                <a
-                  href="#contact"
-                  className="mt-5 inline-block text-xs font-medium text-zinc-500 transition-colors hover:text-zinc-400"
-                >
-                  Enquire →
-                </a>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Testimonials */}
-      <section className="py-24 md:py-32">
-        <div className="mx-auto max-w-6xl px-6 lg:px-12">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="mb-12"
-          >
-            <span className="text-xs font-medium uppercase tracking-[0.2em] text-zinc-500">
-              What Our Clients Say
-            </span>
-            <h2 className="mt-3 font-display text-3xl font-light text-zinc-100 sm:text-4xl">
-              Testimonials
-            </h2>
-          </motion.div>
-
-          <motion.div
-            initial="initial"
-            whileInView="animate"
-            viewport={{ once: true }}
-            variants={stagger}
-            className="grid gap-6 md:grid-cols-2"
-          >
-            {testimonials.map((t, i) => (
-              <motion.div
-                key={i}
-                variants={fadeUp}
-                className="border-l border-zinc-700 bg-[var(--surface)] p-6"
-              >
-                <p className="font-display text-lg font-light italic text-zinc-300">
-                  &ldquo;{t.quote}&rdquo;
-                </p>
-                <div className="mt-4">
-                  <span className="text-sm font-medium text-zinc-400">
-                    {t.name}
-                  </span>
-                  <span className="ml-2 text-sm text-zinc-500">{t.role}</span>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Team */}
-      <section
-        id="team"
-        className="border-t border-zinc-800/60 bg-[var(--surface)] py-24 md:py-32"
-      >
-        <div className="mx-auto max-w-6xl px-6 lg:px-12">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="mb-12"
-          >
-            <span className="text-xs font-medium uppercase tracking-[0.2em] text-zinc-500">
-              Our Founders
-            </span>
-            <h2 className="mt-3 font-display text-3xl font-light text-zinc-100 sm:text-4xl">
-              Team
-            </h2>
-          </motion.div>
-
-          <motion.div
-            initial="initial"
-            whileInView="animate"
-            viewport={{ once: true }}
-            variants={stagger}
-            className="grid gap-10 md:grid-cols-2"
-          >
-            {team.map((member, i) => (
-              <motion.div
-                key={i}
-                variants={fadeUp}
-                className="flex flex-col gap-6 md:flex-row"
-              >
-                <div className="h-40 w-full shrink-0 bg-[var(--surface-elevated)] md:h-52 md:w-40" />
-                <div>
-                  <h3 className="font-display text-xl font-light text-zinc-200">
-                    {member.name}
-                  </h3>
-                  <p className="mt-1 text-xs uppercase tracking-wider text-zinc-500">
-                    {member.role}
-                  </p>
-                  <p className="mt-3 text-sm leading-relaxed text-zinc-500">
-                    {member.bio}
-                  </p>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Contact / Footer */}
-      <footer
-        id="contact"
-        className="border-t border-zinc-800/60 py-16 md:py-20"
-      >
-        <div className="mx-auto max-w-6xl px-6 lg:px-12">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="flex flex-col items-center justify-between gap-10 md:flex-row"
-          >
-            <div>
-              <h3 className="font-display text-xl font-light text-zinc-300">
-                Smiley Films LLP
-              </h3>
-              <p className="mt-1 text-sm text-zinc-500">
-                Mumbai-based Production House · Since 2017
-              </p>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.2 }}
+          className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
+        >
+          <a href="#featured-work" className="flex flex-col items-center gap-3">
+            <div className="w-6 h-10 rounded-full border border-[var(--accent)]/50 flex justify-center pt-2">
+              <div className="w-1 h-2 rounded-full bg-[var(--accent)] animate-bounce" />
             </div>
-            <nav className="flex flex-wrap justify-center gap-6 text-sm">
-              <a
-                href="#contact"
-                className="text-zinc-500 transition-colors hover:text-zinc-300"
-              >
-                Connect
-              </a>
-              <a
-                href="#"
-                className="text-zinc-500 transition-colors hover:text-zinc-300"
-              >
-                Careers
-              </a>
-              <a
-                href="#"
-                className="text-zinc-500 transition-colors hover:text-zinc-300"
-              >
-                Award
-              </a>
-              <a
-                href="#"
-                className="text-zinc-500 transition-colors hover:text-zinc-300"
-              >
-                Gallery
-              </a>
-              <a
-                href="#"
-                className="text-zinc-500 transition-colors hover:text-zinc-300"
-              >
-                Press
-              </a>
-              <a
-                href="#works"
-                className="text-zinc-500 transition-colors hover:text-zinc-300"
-              >
-                Works
-              </a>
-              <a
-                href="#services"
-                className="text-zinc-500 transition-colors hover:text-zinc-300"
-              >
-                Services
-              </a>
-              <a
-                href="#about"
-                className="text-zinc-500 transition-colors hover:text-zinc-300"
-              >
-                About
-              </a>
-            </nav>
+          </a>
+        </motion.div>
+      </section>
+
+      {/* ——— FEATURED WORK ——— */}
+      <section
+        id="featured-work"
+        className="py-24 md:py-32 px-6 md:px-12 scroll-mt-24"
+      >
+        <div className="mx-auto max-w-7xl">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeInUp}
+            className="mb-12"
+          >
+            <span className="text-[var(--accent)] text-sm font-medium tracking-widest uppercase">
+              Portfolio
+            </span>
+            <h2 className="mt-3 font-serif text-4xl md:text-5xl lg:text-6xl font-light text-white">
+              Featured Work
+            </h2>
+            <p className="mt-4 max-w-xl text-[var(--fg-muted)]">
+              Select a project for full details — release date, synopsis, cast &
+              crew.
+            </p>
           </motion.div>
-          <div className="mt-12 border-t border-zinc-800/60 pt-6 text-center text-xs text-zinc-600">
-            © {new Date().getFullYear()} Smiley Films LLP. All rights reserved.
+
+          <div className="relative">
+            {canScrollLeftF && (
+              <button
+                type="button"
+                onClick={() => scrollSlider(featuredScrollRef, "left")}
+                className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full glass flex items-center justify-center text-white hover:bg-[var(--accent)]/20 transition-colors -translate-x-2"
+                aria-label="Previous"
+              >
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 19l-7-7 7-7"
+                  />
+                </svg>
+              </button>
+            )}
+            {canScrollRightF && (
+              <button
+                type="button"
+                onClick={() => scrollSlider(featuredScrollRef, "right")}
+                className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full glass flex items-center justify-center text-white hover:bg-[var(--accent)]/20 transition-colors translate-x-2"
+                aria-label="Next"
+              >
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
+              </button>
+            )}
+
+            <div
+              ref={featuredScrollRef}
+              className="slider-track flex gap-6 overflow-x-auto snap-x snap-mandatory pb-4 -mx-2 px-2"
+              style={{ scrollSnapType: "x mandatory" }}
+            >
+              {featuredFilms.map((film) => (
+                <Link
+                  key={film.slug}
+                  href={`/featured-work/${film.slug}`}
+                  className="group flex-shrink-0 w-[85vw] sm:w-[70vw] md:w-[55vw] lg:w-[42vw] snap-center"
+                >
+                  <div className="aspect-[16/10] overflow-hidden rounded-2xl image-hover-zoom relative">
+                    <Image
+                      src={film.poster}
+                      alt={film.title}
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover:scale-105"
+                      sizes="(max-width: 768px) 85vw, (max-width: 1024px) 55vw, 42vw"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg)] via-transparent to-transparent opacity-90" />
+                    <div className="absolute bottom-0 left-0 right-0 p-5 md:p-6">
+                      <h3 className="font-serif text-2xl md:text-3xl font-light text-white group-hover:text-[var(--accent)] transition-colors">
+                        {film.title}
+                      </h3>
+                      <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-sm text-[var(--fg-muted)]">
+                        <span>{film.category}</span>
+                        <span>{film.runtime}</span>
+                        <span>{"platform" in film ? film.platform : ""}</span>
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
-      </footer>
-    </div>
+      </section>
+
+      {/* ——— AWARDS ——— */}
+      <section
+        id="awards"
+        className="py-24 md:py-32 px-6 md:px-12 bg-[var(--bg-elevated)] scroll-mt-24"
+      >
+        <div className="mx-auto max-w-6xl">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeInUp}
+            className="mb-12"
+          >
+            <span className="text-[var(--accent)] text-sm font-medium tracking-widest uppercase">
+              Recognition
+            </span>
+            <h2 className="mt-3 font-serif text-4xl md:text-5xl font-light text-white">
+              Awards
+            </h2>
+            <p className="mt-4 max-w-xl text-[var(--fg-muted)]">
+              Awards won for film Chidiya. Visuals will be added.
+            </p>
+          </motion.div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {awards.map((award, i) => (
+              <motion.div
+                key={`${award.event}-${i}`}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={fadeInUp}
+                className="glass-card rounded-2xl p-6 flex flex-col sm:flex-row gap-6 items-start"
+              >
+                <div className="flex-shrink-0 w-full sm:w-28 h-28 rounded-xl bg-[var(--bg-card)] border border-[var(--border)] flex items-center justify-center text-[var(--fg-dim)] text-xs">
+                  Visual
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex flex-wrap items-center gap-2 text-[var(--accent)] text-sm font-medium">
+                    <span>{award.year}</span>
+                    <span>·</span>
+                    <span>{award.location}</span>
+                  </div>
+                  <h3 className="mt-2 text-lg font-medium text-[var(--fg)]">
+                    {award.title}
+                  </h3>
+                  <p className="mt-1 text-sm text-[var(--fg-muted)]">
+                    {award.event}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ——— ABOUT US ——— */}
+      <section id="about" className="py-24 md:py-32 px-6 md:px-12 scroll-mt-24">
+        <div className="mx-auto max-w-4xl">
+          <motion.span
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeInUp}
+            className="text-[var(--accent)] text-sm font-medium tracking-widest uppercase"
+          >
+            Who We Are
+          </motion.span>
+          <motion.h2
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeInUp}
+            transition={{ delay: 0.05 }}
+            className="mt-3 font-serif text-4xl md:text-5xl lg:text-6xl font-light text-white"
+          >
+            About Us
+          </motion.h2>
+          <motion.p
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeInUp}
+            transition={{ delay: 0.1 }}
+            className="mt-4 max-w-xl text-[var(--fg-muted)]"
+          >
+            The company behind the stories. Our vision, mission, culture and
+            stats.
+          </motion.p>
+
+          <div className="mt-16 grid gap-6 sm:gap-8">
+            {aboutSections.map((section, i) => (
+              <motion.div
+                key={section.id}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={fadeInUp}
+                transition={{ delay: i * 0.08 }}
+                className="group relative overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--bg-card)]/60 p-6 sm:p-8 md:p-10 card-lift hover:border-[var(--accent)]/30 transition-colors duration-300"
+              >
+                <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-[var(--accent)] to-[var(--accent-dark)] opacity-80 rounded-l-2xl" />
+                <div className="pl-5 sm:pl-6">
+                  <div className="mb-4 flex items-center gap-4">
+                    <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-[var(--accent)]/15 text-[var(--accent)] ring-1 ring-[var(--accent)]/20 transition-colors duration-300 group-hover:bg-[var(--accent)]/25">
+                      {section.icon === "company" && (
+                        <svg
+                          className="h-6 w-6"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          strokeWidth={1.5}
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008V18Zm0 0h.008v.008h-.008V18Z"
+                          />
+                        </svg>
+                      )}
+                      {section.icon === "vision" && (
+                        <svg
+                          className="h-6 w-6"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          strokeWidth={1.5}
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"
+                          />
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                          />
+                        </svg>
+                      )}
+                      {section.icon === "mission" && (
+                        <svg
+                          className="h-6 w-6"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          strokeWidth={1.5}
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5"
+                          />
+                        </svg>
+                      )}
+                      {section.icon === "culture" && (
+                        <svg
+                          className="h-6 w-6"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          strokeWidth={1.5}
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z"
+                          />
+                        </svg>
+                      )}
+                    </div>
+                    <h3 className="font-serif text-2xl md:text-3xl font-light text-white">
+                      {section.title}
+                    </h3>
+                  </div>
+                  <p className="text-[var(--fg-muted)] leading-relaxed text-base md:text-lg">
+                    {section.content}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeInUp}
+            className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-6"
+          >
+            {stats.map((stat) => (
+              <div
+                key={stat.label}
+                className="glass-card rounded-2xl p-6 text-center card-lift"
+              >
+                <span className="text-3xl md:text-4xl font-serif font-light text-[var(--accent)]">
+                  {stat.value}
+                </span>
+                <p className="mt-2 text-sm text-[var(--fg-muted)]">
+                  {stat.label}
+                </p>
+              </div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ——— TEAM ——— */}
+      <section
+        id="team"
+        className="py-24 md:py-32 px-6 md:px-12 bg-[var(--bg-elevated)] scroll-mt-24"
+      >
+        <div className="mx-auto max-w-6xl">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeInUp}
+            className="mb-10"
+          >
+            <span className="text-[var(--accent)] text-sm font-medium tracking-widest uppercase">
+              People
+            </span>
+            <h2 className="mt-3 font-serif text-4xl md:text-5xl font-light text-white">
+              Team
+            </h2>
+            <p className="mt-4 max-w-xl text-[var(--fg-muted)]">
+              Meet the people behind Smiley Films. Click any member to view full
+              profile.
+            </p>
+          </motion.div>
+
+          <div
+            className="flex gap-6 overflow-x-auto slider-track pb-4 -mx-2 px-2 snap-x snap-mandatory"
+            style={{ scrollSnapType: "x mandatory" }}
+          >
+            {teamMembers.map((member) => (
+              <Link
+                key={member.slug}
+                href={`/team#${member.slug}`}
+                className="group flex-shrink-0 w-56 snap-center"
+              >
+                <div className="aspect-square rounded-2xl overflow-hidden image-hover-zoom relative">
+                  <Image
+                    src={member.image}
+                    alt={member.name}
+                    width={224}
+                    height={224}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg)] to-transparent opacity-80" />
+                  <div className="absolute bottom-0 left-0 right-0 p-4">
+                    <h3 className="font-serif text-lg font-light text-white">
+                      {member.name}
+                    </h3>
+                    <p className="text-xs text-[var(--accent)] mt-0.5">
+                      {member.designation}
+                    </p>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ——— SERVICES ——— */}
+      <section
+        id="services"
+        className="py-24 md:py-32 px-6 md:px-12 scroll-mt-24"
+      >
+        <div className="mx-auto max-w-7xl">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeInUp}
+            className="mb-16"
+          >
+            <span className="text-[var(--accent)] text-sm font-medium tracking-widest uppercase">
+              What We Create
+            </span>
+            <h2 className="mt-3 font-serif text-4xl md:text-5xl lg:text-6xl font-light text-white">
+              Services
+            </h2>
+            <p className="mt-4 max-w-xl text-[var(--fg-muted)]">
+              End-to-end production across features, series, shorts, and branded
+              content.
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeInUp}
+            className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-16"
+          >
+            {services.map((service) => (
+              <div
+                key={service.title}
+                className="glass-card rounded-2xl overflow-hidden card-lift"
+              >
+                <div className="aspect-video bg-[var(--bg-card)] border-b border-[var(--border)] flex items-center justify-center text-[var(--fg-dim)] text-sm">
+                  Visual
+                </div>
+                <div className="p-8">
+                  <h3 className="text-xl font-medium text-[var(--fg)]">
+                    {service.title}
+                  </h3>
+                  <p className="mt-3 text-[var(--fg-muted)] text-sm leading-relaxed">
+                    {service.description}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ——— PRESS ——— */}
+      <section
+        id="press"
+        className="py-24 md:py-32 px-6 md:px-12 bg-[var(--bg-elevated)] scroll-mt-24"
+      >
+        <div className="mx-auto max-w-6xl">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeInUp}
+            className="mb-10"
+          >
+            <span className="text-[var(--accent)] text-sm font-medium tracking-widest uppercase">
+              Coverage
+            </span>
+            <h2 className="mt-3 font-serif text-4xl md:text-5xl font-light text-white">
+              Press
+            </h2>
+            <p className="mt-4 max-w-xl text-[var(--fg-muted)]">
+              News and coverage about Smiley Films. Click an article or View
+              More to read on our Press page.
+            </p>
+          </motion.div>
+
+          <div className="relative">
+            {canScrollLeftP && (
+              <button
+                type="button"
+                onClick={() => scrollSlider(pressScrollRef, "left")}
+                className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full glass flex items-center justify-center text-white hover:bg-[var(--accent)]/20 transition-colors -translate-x-2"
+                aria-label="Previous"
+              >
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 19l-7-7 7-7"
+                  />
+                </svg>
+              </button>
+            )}
+            {canScrollRightP && (
+              <button
+                type="button"
+                onClick={() => scrollSlider(pressScrollRef, "right")}
+                className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full glass flex items-center justify-center text-white hover:bg-[var(--accent)]/20 transition-colors translate-x-2"
+                aria-label="Next"
+              >
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
+              </button>
+            )}
+
+            <div
+              ref={pressScrollRef}
+              className="slider-track flex gap-6 overflow-x-auto pb-4 -mx-2 px-2 snap-x snap-mandatory"
+              style={{ scrollSnapType: "x mandatory" }}
+            >
+              {pressItems.slice(0, 8).map((item) => (
+                <Link
+                  key={item.id}
+                  href="/press"
+                  className="flex-shrink-0 w-[85vw] sm:w-[70vw] md:w-[400px] snap-center text-left block"
+                >
+                  <div className="glass-card rounded-2xl p-6 md:p-8 h-full min-h-[200px] card-lift hover:border-[var(--accent)]/30 transition-colors">
+                    <p className="text-[var(--fg)] leading-relaxed line-clamp-4">
+                      &ldquo;{item.quote}&rdquo;
+                    </p>
+                    <p className="mt-4 text-sm text-[var(--accent)] font-medium">
+                      {item.source}
+                    </p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-10 flex justify-center">
+            <Link
+              href="/press"
+              className="btn-outline px-10 py-4 text-[12px] font-medium uppercase tracking-widest rounded-full"
+            >
+              View More
+            </Link>
+          </div>
+        </div>
+      </section>
+    </>
   );
 }

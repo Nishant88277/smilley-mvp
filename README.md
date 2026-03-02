@@ -29,6 +29,34 @@ To learn more about Next.js, take a look at the following resources:
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
+## Deploy on Netlify
+
+This project is configured for Netlify with `netlify.toml` and `@netlify/plugin-nextjs`.
+
+### Option 1: Deploy with Git (recommended)
+
+1. Push your code to GitHub, GitLab, or Bitbucket.
+2. Go to [app.netlify.com](https://app.netlify.com) and sign in.
+3. Click **Add new site** → **Import an existing project**.
+4. Choose your Git provider and select this repository.
+5. Netlify will use the build settings from `netlify.toml` (build command, Node 20, Next.js plugin).
+6. Click **Deploy site**. The first build may take a few minutes.
+
+After each push to your main branch, Netlify will auto-deploy.
+
+### Option 2: Deploy with Netlify CLI
+
+Requires Node.js 20+ and a Netlify account.
+
+```bash
+npm install -g netlify-cli
+netlify login
+netlify init
+netlify deploy --build
+```
+
+---
+
 ## Deploy on Vercel
 
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
