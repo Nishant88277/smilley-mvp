@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "deploy": "npx netlify deploy --prod --build"
   },
   "dependencies": {
     "framer-motion": "^12.30.0",
