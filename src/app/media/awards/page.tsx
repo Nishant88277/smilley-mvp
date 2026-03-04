@@ -29,10 +29,10 @@ export default function AwardsPage() {
           {awards.map((award, i) => (
             <div
               key={`${award.event}-${award.title}-${i}`}
-              className="glass-card rounded-2xl p-6 md:p-8 flex flex-col sm:flex-row gap-6 items-start"
+              className="glass-card p-6 md:p-8 flex flex-col sm:flex-row gap-6 items-start"
             >
               {/* Placeholder for award visual — replace with real image when available */}
-              <div className="flex-shrink-0 w-full sm:w-32 h-32 rounded-xl bg-[var(--bg-card)] border border-[var(--border)] flex items-center justify-center text-[var(--fg-dim)] text-sm">
+              <div className="flex-shrink-0 w-full sm:w-32 h-32 bg-[var(--bg-card)] border border-[var(--border)] flex items-center justify-center text-[var(--fg-dim)] text-sm">
                 Visual
               </div>
               <div className="flex-1 min-w-0">

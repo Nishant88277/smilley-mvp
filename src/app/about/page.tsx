@@ -105,7 +105,7 @@ export default function AboutPage() {
                 className="group relative py-12 md:py-16 border-b border-[var(--border)] last:border-0"
               >
                 <div className="flex gap-6 md:gap-10">
-                  <span className="flex-shrink-0 w-10 h-10 rounded-full border border-[var(--border-accent)] flex items-center justify-center text-[var(--accent)] text-sm font-light opacity-80 group-hover:opacity-100 group-hover:border-[var(--accent)] transition-all duration-300">
+                  <span className="flex-shrink-0 w-10 h-10 border border-[var(--border-accent)] flex items-center justify-center text-[var(--accent)] text-sm font-light opacity-80 group-hover:opacity-100 group-hover:border-[var(--accent)] transition-all duration-300">
                     {section.icon}
                   </span>
                   <div>
@@ -140,7 +140,7 @@ export default function AboutPage() {
                   transition={{ delay: i * 0.08 }}
                   className="relative text-center"
                 >
-                  <div className="inline-block rounded-2xl glass-card px-8 py-8 card-lift min-w-[140px]">
+                  <div className="inline-block glass-card px-8 py-8 card-lift min-w-[140px]">
                     <span className="block text-4xl md:text-5xl font-serif font-light text-[var(--accent)] tabular-nums">
                       {stat.value}
                     </span>
@@ -199,7 +199,7 @@ function TeamSlider() {
           href={`/team#${member.slug}`}
           className="group flex-shrink-0 w-56 snap-center"
         >
-          <div className="aspect-square rounded-2xl overflow-hidden image-hover-zoom relative">
+          <div className="aspect-square overflow-hidden image-hover-zoom relative">
             <Image
               src={member.image}
               alt={member.name}

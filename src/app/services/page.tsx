@@ -126,13 +126,13 @@ export default function ServicesPage() {
               <motion.div
                 key={service.title}
                 variants={fadeInUp}
-                className="group relative rounded-2xl overflow-hidden card-lift"
+                className="group relative overflow-hidden card-lift"
               >
                 <div className="absolute inset-0 glass-card" />
                 <div className="relative p-8 md:p-10">
                   {/* Icon with gradient glow */}
                   <div
-                    className="inline-flex items-center justify-center w-14 h-14 rounded-xl text-white shadow-lg group-hover:shadow-[0_0_40px_var(--accent-glow)] transition-shadow duration-300"
+                    className="inline-flex items-center justify-center w-14 h-14 text-white shadow-lg group-hover:shadow-[0_0_40px_var(--accent-glow)] transition-shadow duration-300"
                     style={{ background: service.gradient }}
                   >
                     {service.icon}

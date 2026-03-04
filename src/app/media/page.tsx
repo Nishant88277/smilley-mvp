@@ -25,7 +25,7 @@ export default function MediaPage() {
             <Link
               key={item.href}
               href={item.href}
-              className="glass-card rounded-2xl p-8 card-lift block group"
+              className="glass-card p-8 card-lift block group"
             >
               <h2 className="text-xl font-medium text-[var(--fg)] group-hover:text-[var(--accent)] transition-colors">
                 {item.label}

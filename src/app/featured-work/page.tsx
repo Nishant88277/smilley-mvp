@@ -59,7 +59,8 @@ export default function FeaturedWorkPage() {
               Featured Work
             </h1>
             <p className="mt-4 max-w-xl text-[var(--fg-muted)]">
-              Select a project for full details — release date, synopsis, cast & crew.
+              Select a project for full details — release date, synopsis, cast &
+              crew.
             </p>
           </motion.div>
 
@@ -69,11 +70,21 @@ export default function FeaturedWorkPage() {
               <button
                 type="button"
                 onClick={() => scroll("left")}
-                className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full glass flex items-center justify-center text-white hover:bg-[var(--accent)]/20 transition-colors -translate-x-2"
+                className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 glass flex items-center justify-center text-white hover:bg-[var(--accent)]/20 transition-colors -translate-x-2"
                 aria-label="Previous"
               >
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 19l-7-7 7-7"
+                  />
                 </svg>
               </button>
             )}
@@ -81,11 +92,21 @@ export default function FeaturedWorkPage() {
               <button
                 type="button"
                 onClick={() => scroll("right")}
-                className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full glass flex items-center justify-center text-white hover:bg-[var(--accent)]/20 transition-colors translate-x-2"
+                className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 glass flex items-center justify-center text-white hover:bg-[var(--accent)]/20 transition-colors translate-x-2"
                 aria-label="Next"
               >
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 5l7 7-7 7"
+                  />
                 </svg>
               </button>
             )}
@@ -101,7 +122,7 @@ export default function FeaturedWorkPage() {
                   href={`/featured-work/${film.slug}`}
                   className="group flex-shrink-0 w-[85vw] sm:w-[70vw] md:w-[55vw] lg:w-[45vw] snap-center"
                 >
-                  <div className="aspect-[16/10] overflow-hidden rounded-2xl image-hover-zoom relative">
+                  <div className="aspect-[16/10] overflow-hidden image-hover-zoom relative border border-[var(--border)]">
                     <Image
                       src={film.poster}
                       alt={film.title}
@@ -110,13 +131,20 @@ export default function FeaturedWorkPage() {
                       sizes="(max-width: 768px) 85vw, (max-width: 1024px) 55vw, 45vw"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg)] via-transparent to-transparent opacity-90" />
-                    <div className="absolute bottom-0 left-0 right-0 p-5 md:p-6">
+                    <div className="absolute bottom-0 left-0 right-0 p-5 md:p-6 border-t border-[var(--accent)]/40">
                       <h2 className="font-serif text-2xl md:text-3xl font-light text-white group-hover:text-[var(--accent)] transition-colors">
                         {film.title}
                       </h2>
-                      <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-sm text-[var(--fg-muted)]">
+                      <div className="mt-3 flex flex-wrap items-center gap-x-0 gap-y-1 text-sm text-[var(--fg-muted)]">
                         <span>{film.category}</span>
+                        <span className="mx-2 text-[var(--accent)]" aria-hidden>
+                          |
+                        </span>
                         <span>{film.runtime}</span>
+                        <span className="mx-2 text-[var(--accent)]" aria-hidden>
+                          |
+                        </span>
+                        <span>{film.platform ?? "—"}</span>
                       </div>
                     </div>
                   </div>

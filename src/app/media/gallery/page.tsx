@@ -34,7 +34,7 @@ export default function GalleryPage() {
           {galleryImages.map((img) => (
             <div
               key={img.alt}
-              className="aspect-[4/3] relative overflow-hidden rounded-xl image-hover-zoom"
+              className="aspect-[4/3] relative overflow-hidden image-hover-zoom"
             >
               <Image
                 src={img.src}

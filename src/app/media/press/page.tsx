@@ -40,7 +40,7 @@ export default function PressPage() {
                 onClick={scrollToAll}
                 className="flex-shrink-0 w-[85vw] sm:w-[70vw] md:w-[400px] snap-center text-left"
               >
-                <div className="glass-card rounded-2xl p-6 md:p-8 h-full min-h-[200px] card-lift hover:border-[var(--accent)]/30 transition-colors">
+                <div className="glass-card p-6 md:p-8 h-full min-h-[200px] card-lift hover:border-[var(--accent)]/30 transition-colors">
                   <p className="text-[var(--fg)] leading-relaxed line-clamp-4">
                     &ldquo;{item.quote}&rdquo;
                   </p>
@@ -55,7 +55,7 @@ export default function PressPage() {
             <button
               type="button"
               onClick={scrollToAll}
-              className="btn-outline px-10 py-4 text-[12px] font-medium uppercase tracking-widest rounded-full"
+              className="btn-outline px-10 py-4 text-[12px] font-medium uppercase tracking-widest"
             >
               View More
             </button>

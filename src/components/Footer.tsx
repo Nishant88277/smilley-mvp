@@ -1,6 +1,10 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
+import { useState } from "react";
 
+// Social links – to be updated by Smiley Team
 const socialLinks = [
   {
     label: "Instagram",
@@ -50,61 +54,162 @@ const socialLinks = [
   },
 ];
 
+const CONTACT_EMAIL = "info@smileyfilms.in";
+const CONTACT_PHONE = "+91 22 4578 1660";
+const ADDRESS =
+  "1410, Parinee I, Shah Industrial Estate, Off Veera Desai Road, Andheri West, Mumbai 400053";
+// Map: paste the iframe src from Google Maps (Share → Embed a map). Example query-based URL below.
+const MAP_EMBED_URL =
+  "https://www.google.com/maps?q=Parinee+I+Shah+Industrial+Estate+Veera+Desai+Road+Andheri+West+Mumbai+400053&output=embed";
+
 export default function Footer() {
+  const [formState, setFormState] = useState<
+    "idle" | "sending" | "done" | "error"
+  >("idle");
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setFormState("sending");
+    // Replace with your form endpoint (e.g. API route or third-party service)
+    try {
+      await new Promise((r) => setTimeout(r, 800));
+      setFormState("done");
+    } catch {
+      setFormState("error");
+    }
+  };
+
   return (
     <footer id="contact" className="relative overflow-hidden">
-      <div className="py-28 md:py-40 relative">
+      <div className="py-16 md:py-24 relative">
         <div className="absolute inset-0">
           <div className="gradient-orb gradient-orb-1 opacity-30" />
           <div className="gradient-orb gradient-orb-3 opacity-20" />
         </div>
-        <div className="mx-auto max-w-4xl px-6 text-center relative z-10">
-          <span className="text-[var(--accent)] text-sm font-medium tracking-widest uppercase">
-            Ready to Create?
-          </span>
-          <h2 className="mt-4 font-serif text-4xl md:text-5xl lg:text-6xl font-light">
-            Start a conversation
-          </h2>
-          <p className="mt-6 text-[var(--fg-muted)] text-lg max-w-xl mx-auto">
-            From concept to premiere, we&apos;re ready to craft your next
-            masterpiece. Get in touch.
-          </p>
-          <div className="mt-10 flex flex-wrap justify-center gap-4">
-            <a
-              href="mailto:info@smileyfilms.in"
-              className="btn-primary px-10 py-4 text-[12px] font-semibold uppercase tracking-widest rounded-full"
-            >
-              Email us
-            </a>
-            <a
-              href="tel:+912245781660"
-              className="btn-outline px-10 py-4 text-[12px] font-medium uppercase tracking-widest rounded-full"
-            >
-              Call us
-            </a>
-          </div>
-          <p className="mt-6 text-[var(--fg-dim)] text-sm">
-            1410, Parinee I, Shah Industrial Estate, Off Veera Desai Road,
-            Andheri West, Mumbai 400053
-          </p>
-          <div className="mt-16 flex flex-wrap justify-center gap-12 text-[var(--fg-muted)]">
+
+        <div className="mx-auto max-w-6xl px-6 md:px-12 relative z-10">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
+            {/* Contact: ID (email), Number, Form */}
             <div>
-              <span className="text-2xl md:text-3xl font-serif text-[var(--accent)]">
-                30+
+              <span className="text-[var(--accent)] text-sm font-medium tracking-widest uppercase">
+                Contact
               </span>
-              <p className="text-sm mt-1">Projects delivered</p>
+              <h2 className="mt-3 font-serif text-3xl md:text-4xl font-light text-white">
+                Get in touch
+              </h2>
+              <div className="mt-8 space-y-6">
+                <div>
+                  <p className="text-xs font-medium uppercase tracking-wider text-[var(--fg-muted)]">
+                    Email
+                  </p>
+                  <a
+                    href={`mailto:${CONTACT_EMAIL}`}
+                    className="mt-1 block text-white hover:text-[var(--accent)] transition-colors"
+                  >
+                    {CONTACT_EMAIL}
+                  </a>
+                </div>
+                <div>
+                  <p className="text-xs font-medium uppercase tracking-wider text-[var(--fg-muted)]">
+                    Number
+                  </p>
+                  <a
+                    href={`tel:${CONTACT_PHONE.replace(/\s/g, "")}`}
+                    className="mt-1 block text-white hover:text-[var(--accent)] transition-colors"
+                  >
+                    {CONTACT_PHONE}
+                  </a>
+                </div>
+                <div>
+                  <p className="text-xs font-medium uppercase tracking-wider text-[var(--fg-muted)]">
+                    Address
+                  </p>
+                  <p className="mt-1 text-[var(--fg-muted)]">{ADDRESS}</p>
+                </div>
+              </div>
+
+              <form onSubmit={handleSubmit} className="mt-10 space-y-4">
+                <div>
+                  <label
+                    htmlFor="footer-name"
+                    className="block text-sm font-medium text-[var(--fg-muted)] mb-1"
+                  >
+                    Name
+                  </label>
+                  <input
+                    id="footer-name"
+                    name="name"
+                    type="text"
+                    required
+                    className="w-full border border-[var(--border)] bg-[var(--bg)]/80 px-4 py-3 text-white placeholder-[var(--fg-dim)] focus:border-[var(--accent)] focus:outline-none focus:ring-1 focus:ring-[var(--accent)]"
+                    placeholder="Your name"
+                  />
+                </div>
+                <div>
+                  <label
+                    htmlFor="footer-email"
+                    className="block text-sm font-medium text-[var(--fg-muted)] mb-1"
+                  >
+                    Email
+                  </label>
+                  <input
+                    id="footer-email"
+                    name="email"
+                    type="email"
+                    required
+                    className="w-full border border-[var(--border)] bg-[var(--bg)]/80 px-4 py-3 text-white placeholder-[var(--fg-dim)] focus:border-[var(--accent)] focus:outline-none focus:ring-1 focus:ring-[var(--accent)]"
+                    placeholder="you@example.com"
+                  />
+                </div>
+                <div>
+                  <label
+                    htmlFor="footer-message"
+                    className="block text-sm font-medium text-[var(--fg-muted)] mb-1"
+                  >
+                    Message
+                  </label>
+                  <textarea
+                    id="footer-message"
+                    name="message"
+                    rows={4}
+                    required
+                    className="w-full border border-[var(--border)] bg-[var(--bg)]/80 px-4 py-3 text-white placeholder-[var(--fg-dim)] focus:border-[var(--accent)] focus:outline-none focus:ring-1 focus:ring-[var(--accent)] resize-none"
+                    placeholder="Your message"
+                  />
+                </div>
+                {formState === "done" && (
+                  <p className="text-sm text-[var(--accent)]">
+                    Thanks! We&apos;ll get back to you soon.
+                  </p>
+                )}
+                {formState === "error" && (
+                  <p className="text-sm text-red-400">
+                    Something went wrong. Please try again or email us.
+                  </p>
+                )}
+                <button
+                  type="submit"
+                  disabled={formState === "sending"}
+                  className="btn-primary px-6 py-3 text-xs font-semibold uppercase tracking-widest disabled:opacity-60"
+                >
+                  {formState === "sending" ? "Sending…" : "Send"}
+                </button>
+              </form>
             </div>
-            <div>
-              <span className="text-2xl md:text-3xl font-serif text-[var(--accent)]">
-                15+
-              </span>
-              <p className="text-sm mt-1">Years of experience</p>
-            </div>
-            <div>
-              <span className="text-2xl md:text-3xl font-serif text-[var(--accent)]">
-                10+
-              </span>
-              <p className="text-sm mt-1">Awards won</p>
+
+            {/* Map */}
+            <div className="min-h-[320px] lg:min-h-[400px] overflow-hidden border border-[var(--border)]">
+              <iframe
+                src={MAP_EMBED_URL}
+                width="100%"
+                height="100%"
+                style={{ border: 0, minHeight: "320px" }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Smiley Films location"
+                className="w-full h-full min-h-[320px] lg:min-h-[400px]"
+              />
             </div>
           </div>
         </div>
@@ -113,7 +218,7 @@ export default function Footer() {
       <div className="border-t border-[var(--border)] py-8">
         <div className="mx-auto max-w-7xl px-6 md:px-12 flex flex-col md:flex-row items-center justify-between gap-6">
           <Link href="/" className="flex items-center gap-3 group">
-            <span className="relative flex h-16 w-16 flex-shrink-0">
+            <span className="relative flex h-20 w-20 flex-shrink-0">
               <Image
                 src="/images/logo.svg"
                 alt="Smiley Films"

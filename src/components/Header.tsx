@@ -8,7 +8,6 @@ import { useState, useEffect } from "react";
 const navLinks = [
   { href: "/", label: "Home", anchor: "home" },
   { href: "/#featured-work", label: "Featured Work", anchor: "featured-work" },
-  { href: "/#services", label: "Services", anchor: "services" },
   { href: "/#about", label: "About Us", anchor: "about" },
   { href: "/#team", label: "Team", anchor: "team" },
   {
@@ -27,7 +26,6 @@ const SECTION_IDS = [
   "awards",
   "about",
   "team",
-  "services",
   "press",
   "contact",
 ];
@@ -73,6 +71,20 @@ export default function Header() {
   }, []);
 
   useEffect(() => {
+    if (menuOpen) {
+      document.body.style.overflow = "hidden";
+      document.documentElement.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
+    };
+  }, [menuOpen]);
+
+  useEffect(() => {
     if (pathname !== "/") return;
     const update = () => setActiveSection(getActiveSection());
     update();
@@ -103,18 +115,18 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 transition-all duration-500 md:px-12 ${
-        scrolled ? "bg-[var(--bg)]/80 backdrop-blur-md py-3" : "bg-transparent"
+      className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 transition-[background-color,backdrop-filter] duration-500 md:px-12 ${
+        scrolled ? "bg-[var(--bg)]/90 backdrop-blur-md" : "bg-transparent"
       }`}
     >
       <Link href="/" className="relative z-10 flex items-center gap-3">
-        <span className="relative flex h-14 w-14 flex-shrink-0 items-center justify-center md:h-16 md:w-16">
+        <span className="relative flex h-20 w-20 flex-shrink-0 items-center justify-center">
           <Image
             src="/images/logo.svg"
             alt="Smiley Films"
             fill
-            className="object-contain"
-            sizes="64px"
+            className="object-contain object-center"
+            sizes="80px"
             priority
           />
         </span>
@@ -156,7 +168,7 @@ export default function Header() {
               </button>
               {mediaOpen && item.children && (
                 <div className="absolute top-full left-0 pt-2">
-                  <div className="glass rounded-xl py-2 min-w-[160px] border border-[var(--glass-border)]">
+                  <div className="glass py-2 min-w-[160px] border border-[var(--glass-border)]">
                     {item.children.map((child) => (
                       <Link
                         key={child.href}
@@ -197,38 +209,40 @@ export default function Header() {
         )}
       </nav>
 
-      <Link
-        href="/#contact"
-        className="hidden lg:inline-block btn-primary !text-white px-6 py-2.5 text-[11px] font-medium uppercase tracking-widest rounded-full"
-      >
-        Start a conversation
-      </Link>
-
       <button
         onClick={() => setMenuOpen((o) => !o)}
-        className="relative z-10 flex flex-col gap-1.5 lg:hidden p-2"
-        aria-label="Menu"
+        className={`relative z-[50] flex lg:hidden w-12 h-12 items-center justify-center border-2 border-[var(--cream)] backdrop-blur-sm transition-colors hover:border-[var(--fg)] ${
+          menuOpen ? "bg-transparent" : "bg-[var(--bg)]/80"
+        }`}
+        aria-label={menuOpen ? "Close menu" : "Open menu"}
       >
-        <span
-          className={`h-px w-6 bg-white transition-all duration-300 ${
-            menuOpen ? "translate-y-2 rotate-45" : ""
-          }`}
-        />
-        <span
-          className={`h-px w-6 bg-white transition-all duration-300 ${menuOpen ? "opacity-0" : ""}`}
-        />
-        <span
-          className={`h-px w-6 bg-white transition-all duration-300 ${
-            menuOpen ? "-translate-y-2 -rotate-45" : ""
-          }`}
-        />
+        {menuOpen ? (
+          <svg
+            className="w-5 h-5 text-[var(--cream)]"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M18 6L6 18M6 6l12 12" />
+          </svg>
+        ) : (
+          <>
+            <span className="absolute h-px w-5 bg-[var(--cream)] top-1/2 -translate-y-2 -translate-x-1/2 left-1/2" />
+            <span className="absolute h-px w-5 bg-[var(--cream)] top-1/2 -translate-x-1/2 left-1/2" />
+            <span className="absolute h-px w-5 bg-[var(--cream)] top-1/2 translate-y-2 -translate-x-1/2 left-1/2" />
+          </>
+        )}
       </button>
 
       {/* Mobile menu */}
       {menuOpen && (
         <div
-          className="fixed inset-0 z-40 flex flex-col items-center justify-center gap-6 bg-[var(--bg)]/95 backdrop-blur-xl lg:hidden pt-20"
+          className="fixed inset-0 z-[45] flex flex-col items-center justify-center gap-6 bg-[var(--bg)] min-h-[100dvh] overflow-y-auto lg:hidden pt-20 pb-24"
           onClick={() => setMenuOpen(false)}
+          style={{ top: 0, left: 0, right: 0, bottom: 0 }}
         >
           {navLinks.map((item) =>
             "children" in item && item.children ? (
@@ -267,13 +281,6 @@ export default function Header() {
               </Link>
             ),
           )}
-          <Link
-            href="/#contact"
-            className="btn-primary px-8 py-4 text-[12px] font-semibold uppercase tracking-widest rounded-full mt-4"
-            onClick={() => setMenuOpen(false)}
-          >
-            Start a conversation
-          </Link>
         </div>
       )}
     </header>
