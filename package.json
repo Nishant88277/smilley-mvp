@@ -2,6 +2,9 @@
   "name": "smilley-mvp",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=20.9.0"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -11,6 +14,7 @@
   },
   "dependencies": {
     "framer-motion": "^12.30.0",
+    "lucide-react": "^0.577.0",
     "netlify-cli": "^23.14.0",
     "next": "16.1.6",
     "react": "19.2.3",

@@ -4,20 +4,15 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const navLinks = [
   { href: "/", label: "Home", anchor: "home" },
   { href: "/#featured-work", label: "Featured Work", anchor: "featured-work" },
   { href: "/#about", label: "About Us", anchor: "about" },
   { href: "/#team", label: "Team", anchor: "team" },
-  {
-    label: "Media",
-    children: [
-      { href: "/#press", label: "Press", anchor: "press" },
-      { href: "/#awards", label: "Awards", anchor: "awards" },
-      { href: "/media/gallery", label: "Gallery", anchor: null },
-    ],
-  },
+  { href: "/#press", label: "Press", anchor: "press" },
+  { href: "/#awards", label: "Awards", anchor: "awards" },
 ];
 
 const SECTION_IDS = [
@@ -39,7 +34,6 @@ function getActiveSection(): string {
     const rect = el.getBoundingClientRect();
     if (rect.top <= HEADER_OFFSET && rect.bottom > HEADER_OFFSET) return id;
   }
-  // Between sections: pick the one closest to viewport top (smallest top that is > HEADER_OFFSET, or last with top < HEADER_OFFSET)
   let best = "home";
   let bestTop = Infinity;
   for (const id of SECTION_IDS) {
@@ -60,13 +54,20 @@ function getActiveSection(): string {
 export default function Header() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
-  const [mediaOpen, setMediaOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState<string>("home");
+  const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 60);
-    window.addEventListener("scroll", onScroll);
+    const onScroll = () => {
+      setScrolled(window.scrollY > 40);
+      // Scroll progress bar
+      const totalHeight = document.body.scrollHeight - window.innerHeight;
+      setScrollProgress(
+        totalHeight > 0 ? (window.scrollY / totalHeight) * 100 : 0,
+      );
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
@@ -107,182 +108,169 @@ export default function Header() {
     return anchor != null && activeSection === anchor;
   };
 
-  const isMediaChildActive = (childHref: string, anchor: string | null) => {
-    if (pathname === "/press" && childHref === "/#press") return true;
-    if (pathname === "/") return anchor != null && activeSection === anchor;
-    return false;
-  };
-
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 transition-[background-color,backdrop-filter] duration-500 md:px-12 ${
-        scrolled ? "bg-[var(--bg)]/90 backdrop-blur-md" : "bg-transparent"
-      }`}
-    >
-      <Link href="/" className="relative z-10 flex items-center gap-3">
-        <span className="relative flex h-20 w-20 flex-shrink-0 items-center justify-center">
-          <Image
-            src="/images/logo.svg"
-            alt="Smiley Films"
-            fill
-            className="object-contain object-center"
-            sizes="80px"
-            priority
-          />
-        </span>
-      </Link>
-
-      <nav className="hidden gap-8 lg:flex items-center">
-        {navLinks.map((item) =>
-          "children" in item ? (
-            <div
-              key={item.label}
-              className="relative"
-              onMouseEnter={() => setMediaOpen(true)}
-              onMouseLeave={() => setMediaOpen(false)}
-            >
-              <button
-                className={`relative text-[13px] font-light tracking-wide transition-all duration-300 group flex items-center gap-1 ${
-                  pathname.startsWith("/media") ||
-                  pathname === "/press" ||
-                  (pathname === "/" &&
-                    (activeSection === "press" || activeSection === "awards"))
-                    ? "text-[var(--accent)]"
-                    : "text-[var(--fg-muted)] hover:text-[var(--accent)]"
-                }`}
-              >
-                {item.label}
-                <svg
-                  className={`w-3.5 h-3.5 transition-transform ${mediaOpen ? "rotate-180" : ""}`}
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
-              </button>
-              {mediaOpen && item.children && (
-                <div className="absolute top-full left-0 pt-2">
-                  <div className="glass py-2 min-w-[160px] border border-[var(--glass-border)]">
-                    {item.children.map((child) => (
-                      <Link
-                        key={child.href}
-                        href={child.href}
-                        className={`block px-4 py-2.5 text-[13px] transition-colors ${
-                          isMediaChildActive(child.href, child.anchor)
-                            ? "text-[var(--accent)]"
-                            : "text-[var(--fg-muted)] hover:text-[var(--accent)] hover:bg-[var(--bg-hover)]"
-                        }`}
-                      >
-                        {child.label}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              )}
+    <>
+      <header
+        className={`fixed top-0 left-0 right-0 z-[100] flex items-center justify-between px-6 py-3 transition-all duration-500 md:px-12 ${
+          scrolled
+            ? "bg-[var(--bg)]/95 backdrop-blur-md border-b border-[var(--border)] shadow-[0_4px_30px_rgba(0,0,0,0.4)]"
+            : "bg-transparent"
+        }`}
+      >
+        {/* Logo */}
+        <Link href="/" className="relative z-10 flex items-center gap-3 group">
+          <span className="relative flex h-9 w-20 flex-shrink-0 items-center justify-center transition-transform duration-300 group-hover:scale-105">
+            <div className="relative w-full h-full mix-blend-screen bg-black overflow-hidden rounded-sm">
+              <Image
+                src="/images/logo.svg"
+                alt="Smiley Films"
+                fill
+                className="object-contain object-left [filter:invert(1)_hue-rotate(180deg)]"
+                sizes="80px"
+                priority
+              />
             </div>
-          ) : (
+          </span>
+        </Link>
+
+        {/* Desktop nav */}
+        <nav className="hidden gap-8 lg:flex items-center">
+          {navLinks.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className={`relative text-[13px] font-light tracking-wide transition-all duration-300 hover:text-[var(--accent)] group ${
+              className={`relative text-[13px] font-light tracking-wide transition-all duration-300 group py-1 ${
                 isActive(item.href, item.anchor)
                   ? "text-white"
-                  : "text-[var(--fg-muted)]"
+                  : "text-[var(--fg-muted)] hover:text-white"
               }`}
             >
               {item.label}
               <span
-                className={`absolute -bottom-1 left-0 h-px transition-all duration-300 ${
+                className={`absolute -bottom-0.5 left-0 h-px transition-all duration-300 ${
                   isActive(item.href, item.anchor)
-                    ? "w-full bg-white"
+                    ? "w-full bg-[var(--accent)]"
                     : "w-0 bg-[var(--accent)] group-hover:w-full"
                 }`}
               />
             </Link>
-          ),
-        )}
-      </nav>
+          ))}
 
-      <button
-        onClick={() => setMenuOpen((o) => !o)}
-        className={`relative z-[50] flex lg:hidden w-12 h-12 items-center justify-center border-2 border-[var(--cream)] backdrop-blur-sm transition-colors hover:border-[var(--fg)] ${
-          menuOpen ? "bg-transparent" : "bg-[var(--bg)]/80"
-        }`}
-        aria-label={menuOpen ? "Close menu" : "Open menu"}
-      >
-        {menuOpen ? (
-          <svg
-            className="w-5 h-5 text-[var(--cream)]"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={2}
-            strokeLinecap="round"
-            strokeLinejoin="round"
+          {/* Contact CTA in header */}
+          <Link
+            href="/#contact"
+            className="btn-primary px-5 py-2.5 text-[11px] font-semibold tracking-widest uppercase ml-2"
           >
-            <path d="M18 6L6 18M6 6l12 12" />
-          </svg>
-        ) : (
-          <>
-            <span className="absolute h-px w-5 bg-[var(--cream)] top-1/2 -translate-y-2 -translate-x-1/2 left-1/2" />
-            <span className="absolute h-px w-5 bg-[var(--cream)] top-1/2 -translate-x-1/2 left-1/2" />
-            <span className="absolute h-px w-5 bg-[var(--cream)] top-1/2 translate-y-2 -translate-x-1/2 left-1/2" />
-          </>
-        )}
-      </button>
+            Start a conversation
+          </Link>
+        </nav>
 
-      {/* Mobile menu */}
-      {menuOpen && (
-        <div
-          className="fixed inset-0 z-[45] flex flex-col items-center justify-center gap-6 bg-[var(--bg)] min-h-[100dvh] overflow-y-auto lg:hidden pt-20 pb-24"
-          onClick={() => setMenuOpen(false)}
-          style={{ top: 0, left: 0, right: 0, bottom: 0 }}
+        {/* Mobile hamburger */}
+        <button
+          onClick={() => setMenuOpen((o) => !o)}
+          className="relative z-[200] flex lg:hidden w-10 h-10 items-center justify-center transition-colors"
+          aria-label={menuOpen ? "Close menu" : "Open menu"}
         >
-          {navLinks.map((item) =>
-            "children" in item && item.children ? (
-              <div
-                key={item.label}
-                className="flex flex-col items-center gap-3"
+          <div className="flex flex-col gap-1.5">
+            <motion.span
+              animate={menuOpen ? { rotate: 45, y: 9 } : { rotate: 0, y: 0 }}
+              transition={{ duration: 0.3 }}
+              className="block h-0.5 w-6 bg-[var(--cream)] origin-center"
+            />
+            <motion.span
+              animate={
+                menuOpen ? { opacity: 0, scaleX: 0 } : { opacity: 1, scaleX: 1 }
+              }
+              transition={{ duration: 0.2 }}
+              className="block h-0.5 w-4 bg-[var(--cream)]"
+            />
+            <motion.span
+              animate={menuOpen ? { rotate: -45, y: -7 } : { rotate: 0, y: 0 }}
+              transition={{ duration: 0.3 }}
+              className="block h-0.5 w-6 bg-[var(--cream)] origin-center"
+            />
+          </div>
+        </button>
+
+        {/* Mobile menu — slide in from right, full height */}
+        <AnimatePresence>
+          {menuOpen && (
+            <>
+              {/* Backdrop — tap to close */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.25 }}
+                onClick={() => setMenuOpen(false)}
+                className="fixed inset-0 z-[90] bg-black/60 backdrop-blur-sm lg:hidden"
+                aria-hidden
+              />
+              {/* Panel from right */}
+              <motion.div
+                initial={{ x: "100%" }}
+                animate={{ x: 0 }}
+                exit={{ x: "100%" }}
+                transition={{
+                  type: "tween",
+                  duration: 0.35,
+                  ease: [0.23, 1, 0.32, 1],
+                }}
+                className="fixed top-0 right-0 bottom-0 z-[95] h-screen w-[min(320px,85vw)] bg-[var(--bg)] border-l border-[var(--border)] shadow-2xl flex flex-col lg:hidden overflow-y-auto"
               >
-                <span className="font-serif text-2xl font-light text-[var(--fg-muted)]">
-                  {item.label}
-                </span>
-                {item.children.map((child) => (
-                  <Link
-                    key={child.href}
-                    href={child.href}
-                    className={`font-serif text-xl font-light ${
-                      isMediaChildActive(child.href, child.anchor)
-                        ? "text-white"
-                        : "text-[var(--fg)]"
-                    }`}
+                <div className="flex flex-col items-stretch pt-24 pb-8 px-6">
+                  <nav
+                    className="flex flex-col gap-1"
+                    onClick={() => setMenuOpen(false)}
                   >
-                    {child.label}
-                  </Link>
-                ))}
-              </div>
-            ) : (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`font-serif text-3xl font-light ${
-                  isActive(item.href, item.anchor)
-                    ? "text-white"
-                    : "text-[var(--fg)]"
-                }`}
-              >
-                {item.label}
-              </Link>
-            ),
+                    {navLinks.map((item, i) => (
+                      <motion.div
+                        key={item.href}
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: i * 0.05 + 0.1 }}
+                      >
+                        <Link
+                          href={item.href!}
+                          className={`block py-3 font-serif text-xl font-light transition-colors border-b border-white/5 ${
+                            isActive(item.href!, item.anchor)
+                              ? "text-[var(--accent)]"
+                              : "text-white hover:text-[var(--accent)]"
+                          }`}
+                        >
+                          {item.label}
+                        </Link>
+                      </motion.div>
+                    ))}
+                  </nav>
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.4 }}
+                    className="mt-8"
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    <Link
+                      href="/#contact"
+                      className="btn-primary w-full justify-center px-8 py-4 text-xs font-semibold tracking-widest uppercase inline-flex"
+                    >
+                      Start a conversation
+                    </Link>
+                  </motion.div>
+                </div>
+              </motion.div>
+            </>
           )}
-        </div>
-      )}
-    </header>
+        </AnimatePresence>
+      </header>
+
+      {/* Scroll progress bar */}
+      <div className="fixed top-0 left-0 right-0 z-[60] h-0.5 pointer-events-none">
+        <motion.div
+          className="h-full bg-gradient-to-r from-[var(--accent-dark)] via-[var(--accent)] to-[var(--accent-light)]"
+          style={{ width: `${scrollProgress}%` }}
+        />
+      </div>
+    </>
   );
 }

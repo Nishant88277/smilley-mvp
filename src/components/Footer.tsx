@@ -3,8 +3,9 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
+import { motion } from "framer-motion";
+import { Mail, Phone, MapPin } from "lucide-react";
 
-// Social links – to be updated by Smiley Team
 const socialLinks = [
   {
     label: "Instagram",
@@ -58,9 +59,27 @@ const CONTACT_EMAIL = "info@smileyfilms.in";
 const CONTACT_PHONE = "+91 22 4578 1660";
 const ADDRESS =
   "1410, Parinee I, Shah Industrial Estate, Off Veera Desai Road, Andheri West, Mumbai 400053";
-// Map: paste the iframe src from Google Maps (Share → Embed a map). Example query-based URL below.
 const MAP_EMBED_URL =
   "https://www.google.com/maps?q=Parinee+I+Shah+Industrial+Estate+Veera+Desai+Road+Andheri+West+Mumbai+400053&output=embed";
+
+const footerLinks = [
+  { label: "Home", href: "/" },
+  { label: "Featured Work", href: "/#featured-work" },
+  { label: "About Us", href: "/#about" },
+  { label: "Team", href: "/#team" },
+  { label: "Press", href: "/#press" },
+  { label: "Awards", href: "/#awards" },
+  { label: "Gallery", href: "/media/gallery" },
+];
+
+const fadeInUp = {
+  hidden: { opacity: 0, y: 24 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.7, ease: [0.23, 1, 0.32, 1] as any },
+  },
+};
 
 export default function Footer() {
   const [formState, setFormState] = useState<
@@ -70,7 +89,6 @@ export default function Footer() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setFormState("sending");
-    // Replace with your form endpoint (e.g. API route or third-party service)
     try {
       await new Promise((r) => setTimeout(r, 800));
       setFormState("done");
@@ -81,90 +99,138 @@ export default function Footer() {
 
   return (
     <footer id="contact" className="relative overflow-hidden">
-      <div className="py-16 md:py-24 relative">
-        <div className="absolute inset-0">
-          <div className="gradient-orb gradient-orb-1 opacity-30" />
-          <div className="gradient-orb gradient-orb-3 opacity-20" />
+      {/* Top divider */}
+      <div className="h-px bg-gradient-to-r from-transparent via-[var(--accent)]/40 to-transparent" />
+
+      {/* Main contact section */}
+      <div className="py-20 md:py-28 relative bg-[var(--bg)]">
+        {/* Background decorations */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <div className="gradient-orb gradient-orb-1 opacity-20" />
+          <div className="gradient-orb gradient-orb-3 opacity-15" />
+          <div className="absolute inset-0 mesh-gradient opacity-30" />
         </div>
 
-        <div className="mx-auto max-w-6xl px-6 md:px-12 relative z-10">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
-            {/* Contact: ID (email), Number, Form */}
-            <div>
-              <span className="text-[var(--accent)] text-sm font-medium tracking-widest uppercase">
-                Contact
-              </span>
-              <h2 className="mt-3 font-serif text-3xl md:text-4xl font-light text-white">
-                Get in touch
-              </h2>
-              <div className="mt-8 space-y-6">
-                <div>
-                  <p className="text-xs font-medium uppercase tracking-wider text-[var(--fg-muted)]">
-                    Email
-                  </p>
-                  <a
-                    href={`mailto:${CONTACT_EMAIL}`}
-                    className="mt-1 block text-white hover:text-[var(--accent)] transition-colors"
-                  >
-                    {CONTACT_EMAIL}
-                  </a>
-                </div>
-                <div>
-                  <p className="text-xs font-medium uppercase tracking-wider text-[var(--fg-muted)]">
-                    Number
-                  </p>
-                  <a
-                    href={`tel:${CONTACT_PHONE.replace(/\s/g, "")}`}
-                    className="mt-1 block text-white hover:text-[var(--accent)] transition-colors"
-                  >
-                    {CONTACT_PHONE}
-                  </a>
-                </div>
-                <div>
-                  <p className="text-xs font-medium uppercase tracking-wider text-[var(--fg-muted)]">
-                    Address
-                  </p>
-                  <p className="mt-1 text-[var(--fg-muted)]">{ADDRESS}</p>
-                </div>
+        <div className="mx-auto max-w-7xl px-6 md:px-12 relative z-10">
+          {/* Section label */}
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeInUp}
+            className="mb-16 text-center"
+          >
+            <span className="section-label justify-center">Contact</span>
+            <h2 className="mt-5 font-serif text-4xl md:text-5xl lg:text-6xl font-light text-white">
+              Let&apos;s <span className="text-gradient">Create</span> Together
+            </h2>
+            <p className="mt-4 text-[var(--fg-muted)] max-w-md mx-auto text-sm">
+              Have a project in mind? We&apos;d love to hear from you. Reach out
+              and let&apos;s make something extraordinary.
+            </p>
+          </motion.div>
+
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20">
+            {/* Contact info + form */}
+            <motion.div
+              initial={{ opacity: 0, x: -40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.9, ease: [0.23, 1, 0.32, 1] }}
+            >
+              {/* Contact details */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-1 gap-6 mb-10">
+                {[
+                  {
+                    label: "Email",
+                    value: CONTACT_EMAIL,
+                    href: `mailto:${CONTACT_EMAIL}`,
+                    Icon: Mail,
+                  },
+                  {
+                    label: "Phone",
+                    value: CONTACT_PHONE,
+                    href: `tel:${CONTACT_PHONE.replace(/\s/g, "")}`,
+                    Icon: Phone,
+                  },
+                  {
+                    label: "Address",
+                    value: ADDRESS,
+                    href: null,
+                    Icon: MapPin,
+                  },
+                ].map((item) => {
+                  const Icon = item.Icon;
+                  return (
+                    <div key={item.label} className="flex gap-4 items-start">
+                      <span className="text-[var(--accent)] flex-shrink-0 mt-0.5">
+                        <Icon className="w-5 h-5" aria-hidden />
+                      </span>
+                      <div>
+                        <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[var(--fg-dim)] mb-1">
+                          {item.label}
+                        </p>
+                        {item.href ? (
+                          <a
+                            href={item.href}
+                            className="text-sm text-[var(--fg-muted)] hover:text-white transition-colors duration-200"
+                          >
+                            {item.value}
+                          </a>
+                        ) : (
+                          <p className="text-sm text-[var(--fg-muted)] leading-relaxed">
+                            {item.value}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
 
-              <form onSubmit={handleSubmit} className="mt-10 space-y-4">
-                <div>
-                  <label
-                    htmlFor="footer-name"
-                    className="block text-sm font-medium text-[var(--fg-muted)] mb-1"
-                  >
-                    Name
-                  </label>
-                  <input
-                    id="footer-name"
-                    name="name"
-                    type="text"
-                    required
-                    className="w-full border border-[var(--border)] bg-[var(--bg)]/80 px-4 py-3 text-white placeholder-[var(--fg-dim)] focus:border-[var(--accent)] focus:outline-none focus:ring-1 focus:ring-[var(--accent)]"
-                    placeholder="Your name"
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="footer-email"
-                    className="block text-sm font-medium text-[var(--fg-muted)] mb-1"
-                  >
-                    Email
-                  </label>
-                  <input
-                    id="footer-email"
-                    name="email"
-                    type="email"
-                    required
-                    className="w-full border border-[var(--border)] bg-[var(--bg)]/80 px-4 py-3 text-white placeholder-[var(--fg-dim)] focus:border-[var(--accent)] focus:outline-none focus:ring-1 focus:ring-[var(--accent)]"
-                    placeholder="you@example.com"
-                  />
+              {/* Divider */}
+              <div className="h-px bg-gradient-to-r from-[var(--accent)]/30 to-transparent mb-8" />
+
+              {/* Contact form */}
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label
+                      htmlFor="footer-name"
+                      className="block text-[11px] font-semibold uppercase tracking-wider text-[var(--fg-dim)] mb-2"
+                    >
+                      Name
+                    </label>
+                    <input
+                      id="footer-name"
+                      name="name"
+                      type="text"
+                      required
+                      className="w-full border border-[var(--border)] bg-[var(--bg-card)] px-4 py-3 text-sm text-white placeholder-[var(--fg-dim)] focus:border-[var(--accent)] focus:outline-none focus:ring-1 focus:ring-[var(--accent)]/30 transition-colors duration-200"
+                      placeholder="Your name"
+                    />
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="footer-email"
+                      className="block text-[11px] font-semibold uppercase tracking-wider text-[var(--fg-dim)] mb-2"
+                    >
+                      Email
+                    </label>
+                    <input
+                      id="footer-email"
+                      name="email"
+                      type="email"
+                      required
+                      className="w-full border border-[var(--border)] bg-[var(--bg-card)] px-4 py-3 text-sm text-white placeholder-[var(--fg-dim)] focus:border-[var(--accent)] focus:outline-none focus:ring-1 focus:ring-[var(--accent)]/30 transition-colors duration-200"
+                      placeholder="your@email.com"
+                    />
+                  </div>
                 </div>
                 <div>
                   <label
                     htmlFor="footer-message"
-                    className="block text-sm font-medium text-[var(--fg-muted)] mb-1"
+                    className="block text-[11px] font-semibold uppercase tracking-wider text-[var(--fg-dim)] mb-2"
                   >
                     Message
                   </label>
@@ -173,72 +239,158 @@ export default function Footer() {
                     name="message"
                     rows={4}
                     required
-                    className="w-full border border-[var(--border)] bg-[var(--bg)]/80 px-4 py-3 text-white placeholder-[var(--fg-dim)] focus:border-[var(--accent)] focus:outline-none focus:ring-1 focus:ring-[var(--accent)] resize-none"
-                    placeholder="Your message"
+                    className="w-full border border-[var(--border)] bg-[var(--bg-card)] px-4 py-3 text-sm text-white placeholder-[var(--fg-dim)] focus:border-[var(--accent)] focus:outline-none focus:ring-1 focus:ring-[var(--accent)]/30 resize-none transition-colors duration-200"
+                    placeholder="Tell us about your project..."
                   />
                 </div>
+
                 {formState === "done" && (
-                  <p className="text-sm text-[var(--accent)]">
-                    Thanks! We&apos;ll get back to you soon.
-                  </p>
+                  <motion.p
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="text-sm text-[var(--accent)] flex items-center gap-2"
+                  >
+                    <span>✓</span> Thank you! We&apos;ll get back to you soon.
+                  </motion.p>
                 )}
                 {formState === "error" && (
                   <p className="text-sm text-red-400">
-                    Something went wrong. Please try again or email us.
+                    Something went wrong. Please try again or email us directly.
                   </p>
                 )}
-                <button
-                  type="submit"
-                  disabled={formState === "sending"}
-                  className="btn-primary px-6 py-3 text-xs font-semibold uppercase tracking-widest disabled:opacity-60"
-                >
-                  {formState === "sending" ? "Sending…" : "Send"}
-                </button>
+
+                <div className="flex justify-end">
+                  <button
+                    type="submit"
+                    disabled={formState === "sending" || formState === "done"}
+                    className="btn-primary w-auto min-w-[200px] px-10 py-4 text-xs font-semibold uppercase tracking-widest disabled:opacity-60 flex items-center justify-center gap-3"
+                  >
+                    {formState === "sending" ? (
+                      <>
+                        <motion.span
+                          animate={{ rotate: 360 }}
+                          transition={{
+                            duration: 1,
+                            repeat: Infinity,
+                            ease: "linear",
+                          }}
+                          className="inline-block w-4 h-4 border-2 border-white/30 border-t-white rounded-full"
+                        />
+                        Sending…
+                      </>
+                    ) : formState === "done" ? (
+                      "Message Sent ✓"
+                    ) : (
+                      <>
+                        Send Message
+                        <svg
+                          className="w-4 h-4"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={1.5}
+                            d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
+                          />
+                        </svg>
+                      </>
+                    )}
+                  </button>
+                </div>
               </form>
-            </div>
+            </motion.div>
 
             {/* Map */}
-            <div className="min-h-[320px] lg:min-h-[400px] overflow-hidden border border-[var(--border)]">
-              <iframe
-                src={MAP_EMBED_URL}
-                width="100%"
-                height="100%"
-                style={{ border: 0, minHeight: "320px" }}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title="Smiley Films location"
-                className="w-full h-full min-h-[320px] lg:min-h-[400px]"
-              />
-            </div>
+            <motion.div
+              initial={{ opacity: 0, x: 40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{
+                duration: 0.9,
+                ease: [0.23, 1, 0.32, 1],
+                delay: 0.1,
+              }}
+              className="flex flex-col gap-6"
+            >
+              <div className="flex-1 min-h-[320px] lg:min-h-[440px] overflow-hidden border border-[var(--border)] relative group">
+                {/* Corner decoration */}
+                <div className="absolute top-0 right-0 w-8 h-8 z-10 pointer-events-none">
+                  <div className="absolute top-0 right-0 w-full h-0.5 bg-[var(--accent)]" />
+                  <div className="absolute top-0 right-0 w-0.5 h-full bg-[var(--accent)]" />
+                </div>
+                <div className="absolute bottom-0 left-0 w-8 h-8 z-10 pointer-events-none">
+                  <div className="absolute bottom-0 left-0 w-full h-0.5 bg-[var(--accent)]" />
+                  <div className="absolute bottom-0 left-0 w-0.5 h-full bg-[var(--accent)]" />
+                </div>
+                <iframe
+                  src={MAP_EMBED_URL}
+                  width="100%"
+                  height="100%"
+                  style={{
+                    border: 0,
+                    minHeight: "320px",
+                    filter:
+                      "invert(90%) hue-rotate(180deg) saturate(0.3) contrast(1.1)",
+                  }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="Smiley Films location"
+                  className="w-full h-full min-h-[320px] lg:min-h-[440px]"
+                />
+              </div>
+
+              {/* Quick links */}
+              <div className="grid grid-cols-2 gap-2">
+                {footerLinks.slice(0, 6).map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className="text-xs text-[var(--fg-muted)] hover:text-[var(--accent)] transition-colors duration-200 flex items-center gap-1.5 group"
+                  >
+                    <span className="w-1 h-1 rounded-full bg-[var(--accent)]/40 group-hover:bg-[var(--accent)] transition-colors" />
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
+            </motion.div>
           </div>
         </div>
       </div>
 
-      <div className="border-t border-[var(--border)] py-8">
-        <div className="mx-auto max-w-7xl px-6 md:px-12 flex flex-col md:flex-row items-center justify-between gap-6">
+      {/* Bottom bar */}
+      <div className="border-t border-[var(--border)] bg-[var(--bg-elevated)] py-6">
+        <div className="mx-auto max-w-7xl px-6 md:px-12 flex flex-col md:flex-row items-center justify-between gap-5">
           <Link href="/" className="flex items-center gap-3 group">
-            <span className="relative flex h-20 w-20 flex-shrink-0">
-              <Image
-                src="/images/logo.svg"
-                alt="Smiley Films"
-                fill
-                className="object-contain transition-opacity group-hover:opacity-90"
-                sizes="40px"
-              />
+            <span className="relative flex h-9 w-20 flex-shrink-0">
+              <div className="relative w-full h-full mix-blend-screen bg-black overflow-hidden rounded-sm">
+                <Image
+                  src="/images/logo.svg"
+                  alt="Smiley Films"
+                  fill
+                  className="object-contain object-left [filter:invert(1)_hue-rotate(180deg)]"
+                  sizes="80px"
+                />
+              </div>
             </span>
           </Link>
-          <p className="text-sm text-[var(--fg-muted)] order-last md:order-none">
-            © {new Date().getFullYear()} All rights reserved. Mumbai
+
+          <p className="text-xs text-[var(--fg-dim)] order-last md:order-none text-center">
+            © {new Date().getFullYear()} Smiley Films. All rights reserved.
+            Mumbai, India.
           </p>
-          <nav className="flex items-center gap-6" aria-label="Social media">
+
+          <nav className="flex items-center gap-4" aria-label="Social media">
             {socialLinks.map((s) => (
               <a
                 key={s.label}
                 href={s.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[var(--fg-muted)] hover:text-[var(--accent)] transition-colors duration-200"
+                className="w-9 h-9 flex items-center justify-center border border-[var(--border)] text-[var(--fg-muted)] hover:text-[var(--accent)] hover:border-[var(--accent)]/40 transition-all duration-200 hover:scale-110"
                 title={s.label}
               >
                 <span className="sr-only">{s.label}</span>

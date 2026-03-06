@@ -40,7 +40,6 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${syne.variable} ${jakarta.variable} ${cormorant.variable} font-sans antialiased`}>
         <div className="min-h-screen bg-[var(--bg)] text-[var(--fg)] relative">
-          <div className="film-grain" />
           <Header />
           <main>{children}</main>
           <Footer />
