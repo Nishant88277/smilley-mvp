@@ -468,7 +468,7 @@ body {
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: shimmer 3s linear infinite;
+  animation: shimmer 8s linear infinite;
 }
 
 .text-gradient {
@@ -659,12 +659,16 @@ body {
 /* ================================
    BUTTON STYLES - ENHANCED
    ================================ */
+button {
+  border-radius: 9999px;
+}
+
 .btn-primary {
   position: relative;
   overflow: hidden;
   background: var(--gradient-primary);
   border: none;
-  border-radius: 0;
+  border-radius: 9999px;
   color: var(--fg);
   font-weight: 500;
   transition: all 0.4s ease;
@@ -700,7 +704,7 @@ body {
   overflow: hidden;
   background: transparent;
   border: 1px solid rgba(192, 57, 43, 0.6);
-  border-radius: 0;
+  border-radius: 9999px;
   color: var(--accent);
   transition: all 0.4s ease;
   letter-spacing: 0.08em;
@@ -732,7 +736,7 @@ body {
   position: relative;
   background: transparent;
   border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 0;
+  border-radius: 9999px;
   color: var(--fg-muted);
   transition: all 0.3s ease;
 }
@@ -1066,23 +1070,9 @@ body {
   transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-.award-card-premium::before {
-  content: '';
-  position: absolute;
-  inset: -1px;
-  background: linear-gradient(135deg, var(--gold-light), transparent 40%, transparent 60%, var(--gold-dark));
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  z-index: -1;
-}
-
-.award-card-premium:hover::before {
-  opacity: 0.5;
-}
-
 .award-card-premium:hover {
   transform: translateY(-8px) scale(1.02);
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(201, 168, 76, 0.15);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
 }
 
 /* ================================
@@ -1124,6 +1114,18 @@ body {
 }
 
 .marquee-track:hover {
+  animation-play-state: paused;
+}
+
+/* Awards infinite slider - duplicate content, -50% translate */
+.awards-marquee-track {
+  display: flex;
+  gap: 2.5rem;
+  width: max-content;
+  animation: marquee 50s linear infinite;
+}
+
+.awards-marquee-track:hover {
   animation-play-state: paused;
 }
 

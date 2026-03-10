@@ -2,7 +2,7 @@
 
 import { useRef, useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import Image from "next/image";
+import SafeImage from "@/components/SafeImage";
 import Link from "next/link";
 import { featuredFilms } from "./data";
 
@@ -123,7 +123,7 @@ export default function FeaturedWorkPage() {
                   className="group flex-shrink-0 w-[85vw] sm:w-[70vw] md:w-[55vw] lg:w-[45vw] snap-center"
                 >
                   <div className="aspect-[16/10] overflow-hidden image-hover-zoom relative border border-[var(--border)]">
-                    <Image
+                    <SafeImage
                       src={film.poster}
                       alt={film.title}
                       fill

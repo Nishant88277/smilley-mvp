@@ -73,7 +73,7 @@ export default function TeamPage() {
           href="/#team"
           className="inline-flex items-center gap-2 text-[var(--fg-muted)] hover:text-[var(--accent)] text-sm mb-8 transition-colors"
         >
-          ← Back to Team
+          ← Back to home
         </Link>
 
         <header className="text-center mb-16">
@@ -96,12 +96,12 @@ export default function TeamPage() {
               className="scroll-mt-28"
             >
               <div className="grid md:grid-cols-[minmax(0,320px)_1fr] gap-8 md:gap-14 items-stretch">
-                <div className="relative w-full max-w-[220px] mx-auto md:mx-0 overflow-hidden border border-[var(--border)] aspect-[3/4] md:aspect-auto md:max-w-[320px] md:min-h-0 md:h-full">
+                <div className="relative w-full max-w-[220px] mx-auto md:mx-0 overflow-hidden aspect-[3/4] md:aspect-auto md:max-w-[320px] md:min-h-0 md:h-full">
                   <Image
                     src={member.image}
                     alt={member.name}
                     fill
-                    className="object-cover object-top"
+                    className="object-contain object-top"
                     sizes="(max-width: 768px) 220px, 320px"
                   />
                 </div>

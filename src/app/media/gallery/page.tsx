@@ -1,4 +1,4 @@
-import Image from "next/image";
+import SafeImage from "@/components/SafeImage";
 import Link from "next/link";
 
 const galleryImages = [
@@ -36,7 +36,7 @@ export default function GalleryPage() {
               key={img.alt}
               className="aspect-[4/3] relative overflow-hidden image-hover-zoom"
             >
-              <Image
+              <SafeImage
                 src={img.src}
                 alt={img.alt}
                 fill

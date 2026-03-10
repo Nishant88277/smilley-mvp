@@ -1,7 +1,4 @@
-// Professional portrait photos from Unsplash (cropped for team cards)
-const unsplash = (id: string, w = 500) =>
-  `https://images.unsplash.com/photo-${id}?w=${w}&h=${w}&fit=crop&crop=face`;
-
+// Team portrait photos from /public/images/teams
 export const teamMembers: {
   slug: string;
   name: string;
@@ -15,7 +12,7 @@ export const teamMembers: {
     slug: "mehran-amrohi",
     name: "Mehran Amrohi",
     designation: "Producer",
-    image: unsplash("1560250097-0b93528c311a"),
+    image: "/images/teams/Mehran Amrohi.png",
     description:
       "Leads the creative vision of Smiley Films, overseeing story, scripting, production quality, edit, and music. He also guides the company's financial direction, ensuring sustainable and meaningful growth.",
     imdb: "https://www.imdb.com/name/nm7428633/",
@@ -25,7 +22,7 @@ export const teamMembers: {
     slug: "sumit-khurana",
     name: "Sumit Khurana",
     designation: "Head of Business Development & Strategic Partnerships",
-    image: unsplash("1507003211169-0a1dd7228f2d"),
+    image: "/images/teams/Sumit Khurana.png",
     description:
       "Drives growth strategy, partnerships, platform relations, and expansion opportunities. Aligns creative ambition with commercial scalability.",
     imdb: "https://www.imdb.com/name/nm11863918/",
@@ -35,7 +32,7 @@ export const teamMembers: {
     slug: "faqhrul-husaini",
     name: "Faqhrul Husaini",
     designation: "Head of Operations",
-    image: unsplash("1500648767791-00dcc994a43e"),
+    image: "/images/teams/Faqhrul Husaini.png",
     description:
       "Oversees company-wide operations, process systems, vendor relations, and execution frameworks to ensure smooth functioning across projects.",
     imdb: "https://www.imdb.com/name/nm3566255/",
@@ -45,7 +42,7 @@ export const teamMembers: {
     slug: "afnan-amrohi",
     name: "Afnan Amrohi",
     designation: "Head of Production",
-    image: unsplash("1472099645785-5658abf4ff4e"),
+    image: "/images/teams/Afnan Amrohi.png",
     description:
       "Leads production planning and execution. Responsible for budgeting, scheduling, crew coordination, and ensuring projects are delivered efficiently and on time.",
     imdb: "https://www.imdb.com/name/nm9078414/",
@@ -55,7 +52,7 @@ export const teamMembers: {
     slug: "vinit-vyas",
     name: "Vinit Vyas",
     designation: "Head of Content & Development",
-    image: unsplash("1519345182560-3f2917c472ef"),
+    image: "/images/teams/Vinit Vyas.png",
     description:
       "Leads content strategy, concept development, script evaluation, and narrative pipeline for upcoming projects.",
     imdb: "https://www.imdb.com/name/nm2793535/",

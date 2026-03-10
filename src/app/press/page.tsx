@@ -2,8 +2,11 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { pressItems, type PressItem } from "@/app/media/press/data";
 import { ArrowUpDownIcon } from "lucide-react";
+
+const DEFAULT_PRESS_IMAGE = "/images/placeholder-poster.svg";
 
 const ITEMS_PER_PAGE = 9;
 
@@ -59,7 +62,7 @@ export default function PressPage() {
           href="/#press"
           className="inline-flex items-center gap-2 text-[var(--fg-muted)] hover:text-[var(--accent)] text-sm mb-10 transition-colors"
         >
-          ← Back to Press
+          ← Back to home
         </Link>
 
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 mb-12">
@@ -78,11 +81,13 @@ export default function PressPage() {
                 rel="noopener noreferrer"
                 className="group block"
               >
-                <div className="aspect-square w-full overflow-hidden border border-[var(--border)] bg-[var(--bg-card)] mb-3">
-                  <div className="w-full h-full bg-[var(--bg-elevated)] flex items-center justify-center text-[var(--fg-muted)] text-sm">
-                    {/* Image/video placeholder – replace with real thumb when available */}
-                    <span className="sr-only">Article</span>
-                  </div>
+                <div className="aspect-square w-full overflow-hidden border border-[var(--border)] mb-3 relative h-[199px] w-[357px]">
+                  <Image
+                    src={item.image ?? DEFAULT_PRESS_IMAGE}
+                    alt=""
+                    className="object-cover"
+                    fill
+                  />
                 </div>
                 <p className="text-[var(--fg-muted)] text-sm md:text-base leading-snug underline decoration-[var(--border)] decoration-1 underline-offset-2 group-hover:text-[var(--accent)] group-hover:decoration-[var(--accent)] transition-colors line-clamp-3">
                   &ldquo;{item.quote}&rdquo;

@@ -2,6 +2,7 @@
 
 import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useInView } from "framer-motion";
+import SafeImage from "@/components/SafeImage";
 import Image from "next/image";
 import Link from "next/link";
 import { featuredFilms } from "@/app/featured-work/data";
@@ -32,45 +33,19 @@ const HERO_BANNER_IMAGES = [
 const BANNER_INTERVAL_MS = 5000;
 const BANNER_FADE_DURATION = 1.2;
 
-const aboutSections = [
-  {
-    id: "company",
-    title: "The Company",
-    content:
-      "Born in Mumbai, Smiley Films is a production house engaged in Feature Films, Short Films and Web Content. We bring together strong industry alliances, in-house production, and end-to-end post-production facilities to deliver cinematic excellence. Since 2017, we have built a creative portfolio that is as diverse as it is immersive, earning the trust of clients and collaborators across the industry.",
-    icon: "company",
-    number: "01",
-  },
-  {
-    id: "vision",
-    title: "Vision",
-    content:
-      "To be the creative force that brings India's diverse stories to a global stage. We aim to set new benchmarks in storytelling—where authenticity meets craft, and every project resonates with audiences at home and abroad. Through relentless innovation and a deep respect for our roots, we strive to make Smiley Films synonymous with content that moves people and pushes creative boundaries.",
-    icon: "vision",
-    number: "02",
-  },
-  {
-    id: "mission",
-    title: "Mission",
-    content:
-      "To produce culturally rooted content across Film and Digital, delivering creative excellence through strong collaborations and a cost-efficient approach.",
-    icon: "mission",
-    number: "03",
-  },
-  {
-    id: "culture",
-    title: "Culture",
-    content:
-      "At Smiley Films, we believe the best stories are born when varied voices, bold ideas, and driven people come together as one.",
-    icon: "culture",
-    number: "04",
-  },
-];
+const aboutCompanyText =
+  "Smiley Films is a production house engaged in Feature Films, Short Films and Web Content. We bring together strong industry alliances, in-house production, and end-to-end post-production facilities to deliver cinematic excellence that resonates across audiences.";
+
+const aboutVisionText =
+  "To be the creative force that brings India's diverse stories to a global stage — where authenticity meets craft, and every project resonates with audiences at home and abroad.";
+
+const aboutMissionCultureText =
+  "To produce culturally rooted content across Film and Digital, delivering creative excellence through strong collaborations – where varied voices, bold ideas, and driven people come together as one.";
 
 const stats = [
-  { value: "30+", label: "Projects Delivered" },
-  { value: "15+", label: "Years of Experience" },
-  { value: "10+", label: "Awards Won" },
+  { value: "30+", label: "Projects" },
+  { value: "8+", label: "Years" },
+  { value: "10+", label: "Awards" },
 ];
 
 const awards = [
@@ -134,10 +109,10 @@ function AwardCard({
       className="award-card-premium relative flex flex-col items-center justify-center text-center min-h-[260px] py-10 px-6"
     >
       {/* Ambient glow */}
-      <div className="absolute inset-0 rounded-sm bg-gradient-to-br from-[var(--gold-dark)]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+      <div className="absolute inset-0 rounded-sm group-hover:opacity-100 transition-opacity" />
 
-      {/* Laurel wreath */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+      {/* Laurel wreath - behind text */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
         <Image
           src="/images/laurel-wreath.png"
           alt=""
@@ -148,8 +123,8 @@ function AwardCard({
         />
       </div>
 
-      {/* Text content */}
-      <div className="relative z-10 flex flex-col items-center max-w-[68%]">
+      {/* Text content - above image with backdrop for readability */}
+      <div className="relative z-20 flex flex-col items-center max-w-[68%] px-4 py-5 rounded-lg bg-black/50 backdrop-blur-sm">
         <p className="text-[var(--gold-light)] text-[10px] font-bold uppercase tracking-[0.35em] mb-1">
           Winner
         </p>
@@ -236,11 +211,15 @@ function AnimatedNumber({ value }: { value: string }) {
   );
 }
 
-function AboutCard({
-  section,
+function AboutRightCard({
+  title,
+  content,
+  number,
   delay = 0,
 }: {
-  section: (typeof aboutSections)[0];
+  title: string;
+  content: string;
+  number: string;
   delay?: number;
 }) {
   return (
@@ -250,20 +229,19 @@ function AboutCard({
       viewport={{ once: true, margin: "-50px" }}
       variants={fadeInUp}
       transition={{ delay }}
-      className="group relative py-6 md:py-8"
+      className="relative rounded-lg bg-[#2C2C2C]/80 overflow-hidden p-6 md:p-8 border border-white/[0.04]"
     >
-      <div className="mb-4 flex items-start gap-4">
-        <span className="font-display text-[var(--accent)]/30 text-5xl font-bold leading-none select-none">
-          {section.number}
-        </span>
-        <div className="flex-1 pt-1">
-          <h3 className="font-serif text-xl md:text-2xl font-light text-white group-hover:text-[var(--accent)] transition-colors duration-300">
-            {section.title}
-          </h3>
-        </div>
-      </div>
-      <p className="text-[var(--fg-muted)] leading-relaxed text-sm md:text-base">
-        {section.content}
+      <span
+        className="absolute right-4 bottom-4 md:right-6 md:bottom-6 text-[120px] md:text-[160px] font-display font-bold leading-none text-[var(--accent)]/10 select-none pointer-events-none"
+        aria-hidden
+      >
+        {number}
+      </span>
+      <h3 className="relative font-serif text-lg md:text-xl font-light text-[var(--cream-dark)] mb-3">
+        {title}
+      </h3>
+      <p className="relative text-[var(--fg-muted)] text-sm md:text-base leading-relaxed">
+        {content}
       </p>
     </motion.div>
   );
@@ -301,13 +279,12 @@ export default function Home() {
   const featuredScrollRef = useRef<HTMLDivElement>(null);
   const pressScrollRef = useRef<HTMLDivElement>(null);
   const teamScrollRef = useRef<HTMLDivElement>(null);
+  const awardScrollRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLElement>(null);
   const [canScrollLeftF, setCanScrollLeftF] = useState(false);
   const [canScrollRightF, setCanScrollRightF] = useState(true);
   const [canScrollLeftP, setCanScrollLeftP] = useState(false);
   const [canScrollRightP, setCanScrollRightP] = useState(true);
-  const [canScrollLeftT, setCanScrollLeftT] = useState(false);
-  const [canScrollRightT, setCanScrollRightT] = useState(true);
   const [bannerIndex, setBannerIndex] = useState(0);
 
   // Auto-advance hero banner slider
@@ -343,17 +320,14 @@ export default function Home() {
         setCanScrollRightF,
       );
       updateScrollState(pressScrollRef, setCanScrollLeftP, setCanScrollRightP);
-      updateScrollState(teamScrollRef, setCanScrollLeftT, setCanScrollRightT);
     };
     run();
     featuredScrollRef.current?.addEventListener("scroll", run);
     pressScrollRef.current?.addEventListener("scroll", run);
-    teamScrollRef.current?.addEventListener("scroll", run);
     window.addEventListener("resize", run);
     return () => {
       featuredScrollRef.current?.removeEventListener("scroll", run);
       pressScrollRef.current?.removeEventListener("scroll", run);
-      teamScrollRef.current?.removeEventListener("scroll", run);
       window.removeEventListener("resize", run);
     };
   }, []);
@@ -367,6 +341,44 @@ export default function Home() {
     if (!el) return;
     const step = el.clientWidth * stepMultiplier;
     el.scrollBy({ left: dir === "left" ? -step : step, behavior: "smooth" });
+  };
+
+  /** Awards carousel: always show both arrows, infinite wrap on prev/next */
+  const scrollAwardSlider = (dir: "left" | "right") => {
+    const el = awardScrollRef.current;
+    if (!el) return;
+    const threshold = 10;
+    const atStart = el.scrollLeft <= threshold;
+    const atEnd = el.scrollLeft >= el.scrollWidth - el.clientWidth - threshold;
+    if (dir === "right" && atEnd) {
+      el.scrollTo({ left: 0, behavior: "smooth" });
+    } else if (dir === "left" && atStart) {
+      el.scrollTo({
+        left: el.scrollWidth - el.clientWidth,
+        behavior: "smooth",
+      });
+    } else {
+      scrollSlider(awardScrollRef, dir, 0.8);
+    }
+  };
+
+  /** Team carousel: always show both arrows, infinite wrap on prev/next */
+  const scrollTeamSlider = (dir: "left" | "right") => {
+    const el = teamScrollRef.current;
+    if (!el) return;
+    const threshold = 10;
+    const atStart = el.scrollLeft <= threshold;
+    const atEnd = el.scrollLeft >= el.scrollWidth - el.clientWidth - threshold;
+    if (dir === "right" && atEnd) {
+      el.scrollTo({ left: 0, behavior: "smooth" });
+    } else if (dir === "left" && atStart) {
+      el.scrollTo({
+        left: el.scrollWidth - el.clientWidth,
+        behavior: "smooth",
+      });
+    } else {
+      scrollSlider(teamScrollRef, dir, 0.8);
+    }
   };
 
   return (
@@ -424,7 +436,7 @@ export default function Home() {
                 className="absolute inset-0"
                 aria-hidden
               >
-                <Image
+                <SafeImage
                   src={src}
                   alt=""
                   fill
@@ -444,7 +456,7 @@ export default function Home() {
         {/* Hero content */}
         <motion.div
           style={{ y: heroTextY, opacity: heroOpacity }}
-          className="relative z-10 mx-auto w-full max-w-7xl px-6 md:px-12 text-center"
+          className="relative z-10 mx-auto w-full max-w-7xl px-6 md:px-12 text-center pt-24 md:pt-0"
         >
           {/* Pre-title label */}
           <motion.div
@@ -468,19 +480,19 @@ export default function Home() {
             className="relative inline-block mb-8"
           >
             {/* Corner bracket decorations */}
-            <div className="absolute -top-4 -left-5 w-10 h-10 pointer-events-none">
+            <div className="absolute -top-4 left-5 md:-left-5 w-10 h-10 pointer-events-none">
               <div className="absolute top-0 left-0 w-8 h-0.5 bg-[var(--accent)]" />
               <div className="absolute top-0 left-0 w-0.5 h-8 bg-[var(--accent)]" />
             </div>
-            <div className="absolute -top-4 -right-5 w-10 h-10 pointer-events-none">
+            <div className="absolute -top-4 right-5 md:-right-5 w-10 h-10 pointer-events-none">
               <div className="absolute top-0 right-0 w-8 h-0.5 bg-[var(--accent)]" />
               <div className="absolute top-0 right-0 w-0.5 h-8 bg-[var(--accent)]" />
             </div>
-            <div className="absolute -bottom-4 -left-5 w-10 h-10 pointer-events-none">
+            <div className="absolute -bottom-4 left-5 md:-left-5 w-10 h-10 pointer-events-none">
               <div className="absolute bottom-0 left-0 w-8 h-0.5 bg-[var(--accent)]" />
               <div className="absolute bottom-0 left-0 w-0.5 h-8 bg-[var(--accent)]" />
             </div>
-            <div className="absolute -bottom-4 -right-5 w-10 h-10 pointer-events-none">
+            <div className="absolute -bottom-4 right-5 md:-right-5 w-10 h-10 pointer-events-none">
               <div className="absolute bottom-0 right-0 w-8 h-0.5 bg-[var(--accent)]" />
               <div className="absolute bottom-0 right-0 w-0.5 h-8 bg-[var(--accent)]" />
             </div>
@@ -501,27 +513,6 @@ export default function Home() {
           >
             {DESCRIPTION}
           </motion.p>
-
-          {/* CTA Buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.1, duration: 0.6 }}
-            className="flex flex-wrap items-center justify-center gap-4"
-          >
-            <Link
-              href="/#featured-work"
-              className="btn-primary px-8 py-4 text-xs font-semibold uppercase tracking-widest"
-            >
-              View Our Work
-            </Link>
-            <Link
-              href="/#contact"
-              className="btn-outline px-8 py-4 text-xs font-semibold uppercase tracking-widest"
-            >
-              Get in Touch
-            </Link>
-          </motion.div>
 
           {/* Scroll indicator */}
           <motion.div
@@ -581,7 +572,7 @@ export default function Home() {
           >
             <span className="section-label">Portfolio</span>
             <h2 className="mt-4 font-serif text-4xl md:text-5xl lg:text-6xl font-light text-white">
-              Featured <span className="text-gradient">Works</span>
+              Featured <span className="text-gradient">Work</span>
             </h2>
             <p className="mt-4 max-w-xl mx-auto text-[var(--fg-muted)] text-sm md:text-base">
               Select a project for full details — release date, synopsis, cast &
@@ -656,7 +647,7 @@ export default function Home() {
                   transition={{ duration: 0.8 }}
                   className="aspect-[16/9] overflow-hidden relative group-hover:border-[var(--accent)]/30 transition-colors duration-500"
                 >
-                  <Image
+                  <SafeImage
                     src={film.poster}
                     alt={film.title}
                     fill
@@ -667,16 +658,12 @@ export default function Home() {
                   <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg)] via-[var(--bg)]/20 to-transparent" />
                   <div className="absolute inset-0 bg-gradient-to-r from-[var(--bg)]/60 via-transparent to-transparent" />
 
-                  {/* Film number badge */}
-                  <div className="absolute top-6 left-6 flex items-center gap-3">
-                    <span className="font-display text-4xl font-bold text-white/8">
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
-                  </div>
-
                   {/* Film info overlay */}
                   <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10">
-                    <div className="flex flex-wrap items-center gap-2 mb-3">
+                    <h3 className="font-serif text-3xl md:text-4xl mb-3 lg:text-5xl font-light text-white group-hover:text-[var(--accent)] transition-colors duration-300">
+                      {film.title}
+                    </h3>
+                    <div className="flex flex-wrap items-center gap-2">
                       <span className="inline-flex items-center gap-1.5 bg-[var(--accent)]/90 px-3 py-1 text-white text-[10px] font-semibold tracking-widest uppercase">
                         {film.category}
                       </span>
@@ -691,10 +678,16 @@ export default function Home() {
                           </span>
                         </>
                       )}
+                      {film.duration && (
+                        <>
+                          <span className="text-[var(--accent)]/60">·</span>
+                          <span className="text-[var(--fg-muted)] text-xs">
+                            {film.duration}
+                          </span>
+                        </>
+                      )}
                     </div>
-                    <h3 className="font-serif text-3xl md:text-4xl lg:text-5xl font-light text-white group-hover:text-[var(--accent)] transition-colors duration-300">
-                      {film.title}
-                    </h3>
+
                     {/* Hover CTA */}
                     <div className="mt-4 flex items-center gap-2 text-white/50 group-hover:text-white/90 transition-all duration-300 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100">
                       <span className="text-xs tracking-widest uppercase font-medium">
@@ -722,70 +715,15 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ——— SERVICES SECTION ——— */}
-      <section className="py-20 md:py-28 px-6 md:px-12 bg-[var(--bg-elevated)] relative overflow-hidden">
-        <div className="absolute inset-0 mesh-gradient opacity-40 pointer-events-none" />
-        <div className="mx-auto max-w-7xl relative">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeInUp}
-            className="mb-14"
-          >
-            <span className="section-label">What We Do</span>
-            <h2 className="mt-4 font-serif text-4xl md:text-5xl font-light text-white">
-              Our <span className="text-gradient">Services</span>
-            </h2>
-            <div className="mt-6 w-16 h-0.5 bg-gradient-to-r from-[var(--accent)] to-transparent" />
-          </motion.div>
-
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-[var(--border)]"
-          >
-            {services.map((service, i) => {
-              const Icon = service.icon;
-              return (
-                <motion.div
-                  key={service.title}
-                  variants={{
-                    hidden: { opacity: 0, y: 20 },
-                    visible: {
-                      opacity: 1,
-                      y: 0,
-                      transition: { duration: 0.5, delay: i * 0.06 },
-                    },
-                  }}
-                  className="service-card bg-[var(--bg-elevated)] p-8 md:p-10 border-0"
-                >
-                  <div className="mb-5 flex items-center justify-center w-12 h-12 rounded-lg bg-[var(--accent)]/10 text-[var(--accent)]">
-                    <Icon className="h-6 w-6" />
-                  </div>
-                  <h3 className="font-serif text-xl md:text-2xl font-light text-white mb-3">
-                    {service.title}
-                  </h3>
-                  <p className="text-[var(--fg-muted)] text-sm leading-relaxed">
-                    {service.description}
-                  </p>
-                </motion.div>
-              );
-            })}
-          </motion.div>
-        </div>
-      </section>
-
       {/* ——— AWARDS ——— */}
       <section
         id="awards"
         className="py-24 md:py-36 px-6 md:px-12 scroll-mt-24 relative overflow-hidden"
       >
+        <div className="absolute top-0 left-0 right-0 h-px divider-gradient opacity-60" />
         {/* Dramatic background */}
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute inset-0 bg-gradient-to-b from-[var(--bg)]/30 via-transparent to-[var(--bg)]/30" />
+          <div className="absolute inset-0 bg-black via-transparent" />
           <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] rounded-full bg-[var(--gold)]/4 blur-[150px]" />
         </div>
 
@@ -863,18 +801,60 @@ export default function Home() {
             </motion.p>
           </motion.div>
 
-          {/* Award cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-14">
-            {awards.slice(0, 3).map((award, i) => (
-              <AwardCard key={`${award.event}-${i}`} award={award} index={i} />
-            ))}
-            <div className="col-span-1 sm:col-span-2 lg:col-span-3 flex flex-wrap justify-center gap-10 lg:gap-14">
-              {awards.slice(3, 5).map((award, i) => (
+          {/* Award cards - click-to-slide carousel, arrows both sides, infinite wrap */}
+          <div className="mt-14 relative">
+            <button
+              type="button"
+              onClick={() => scrollAwardSlider("left")}
+              className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 glass flex items-center justify-center text-white hover:bg-[var(--accent)]/30 hover:border-[var(--accent)]/40 transition-all duration-300 -translate-x-2 hover:scale-110"
+              aria-label="Previous award"
+            >
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+            </button>
+            <button
+              type="button"
+              onClick={() => scrollAwardSlider("right")}
+              className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 glass flex items-center justify-center text-white hover:bg-[var(--accent)]/30 hover:border-[var(--accent)]/40 transition-all duration-300 translate-x-2 hover:scale-110"
+              aria-label="Next award"
+            >
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </button>
+
+            <div
+              ref={awardScrollRef}
+              className="slider-track flex gap-6 md:gap-8 overflow-x-auto snap-x snap-mandatory pb-4"
+              style={{ scrollSnapType: "x mandatory" }}
+            >
+              {awards.map((award, i) => (
                 <div
-                  key={`${award.event}-${i + 3}`}
-                  className="w-full min-w-0 sm:w-[calc((100%-2.5rem)/2)] lg:w-[calc((100%-7rem)/3)] lg:max-w-[400px]"
+                  key={`${award.event}-${award.year}-${i}`}
+                  className="flex-shrink-0 w-[300px] md:w-[340px] snap-center"
                 >
-                  <AwardCard award={award} index={i + 3} />
+                  <AwardCard award={award} index={i} />
                 </div>
               ))}
             </div>
@@ -885,57 +865,91 @@ export default function Home() {
       {/* ——— ABOUT US ——— */}
       <section
         id="about"
-        className="py-24 md:py-36 px-6 md:px-12 scroll-mt-24 bg-[var(--bg-elevated)] relative overflow-hidden"
+        className="py-24 md:py-36 px-6 md:px-12 scroll-mt-24 bg-[#1A1A1A] relative overflow-hidden"
       >
         {/* Background decorations */}
         <div className="absolute top-0 left-0 right-0 h-px divider-gradient opacity-60" />
         <div className="absolute bottom-0 right-0 left-0 h-px divider-gradient opacity-60" />
-        <div className="absolute top-1/4 right-0 w-80 h-80 rounded-full bg-[var(--accent)]/5 blur-[100px] pointer-events-none" />
+        {/* Faded "Smiley" watermark - left panel */}
+        <div
+          className="absolute left-0 bottom-[15%] md:bottom-[20%] text-[clamp(120px,20vw,240px)] font-display font-bold leading-none text-[var(--accent)]/[0.06] select-none pointer-events-none"
+          aria-hidden
+        >
+          Smiley
+        </div>
 
         <div className="mx-auto max-w-7xl">
-          {/* Centered title */}
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeInUp}
-            className="text-center mb-14"
-          >
-            <span className="section-label">Who We Are</span>
-            <h2 className="mt-5 font-serif text-4xl md:text-5xl lg:text-6xl font-light text-white leading-tight">
-              About <span className="text-gradient">Us</span>
-            </h2>
-            <p className="mt-4 text-[var(--fg-muted)] text-sm md:text-base max-w-xl mx-auto">
-              The company behind the stories. Our vision, mission, culture and
-              stats.
-            </p>
-            <div className="mt-6 w-16 h-0.5 bg-gradient-to-r from-[var(--accent)] to-transparent mx-auto" />
-          </motion.div>
+          <div className="grid grid-cols-1 lg:grid-cols-[0.95fr_1fr] gap-12 lg:gap-16 items-start">
+            {/* Left column: WHO WE ARE, ABOUT, The Company, tag, BORN IN MUMBAI, built for the world, description, divider, stats */}
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={fadeInUp}
+              className="relative text-center md:text-left"
+            >
+              <div className="flex items-center gap-3 mb-4 justify-center md:justify-start">
+                <span className="w-3 h-px bg-[var(--accent)] shrink-0" />
+                <span className="text-[11px] font-semibold tracking-[0.25em] uppercase text-[var(--fg-muted)]">
+                  WHO WE ARE
+                </span>
+              </div>
+              <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-white uppercase tracking-tight leading-tight">
+                About
+              </h2>
+              <p className="mt-1 font-serif text-lg md:text-xl text-[var(--cream-dark)] italic">
+                The Company
+              </p>
+              <div className="mt-6 inline-block px-4 py-2 rounded-md bg-[var(--accent)] text-white text-xs font-semibold tracking-widest uppercase mx-auto md:mx-0">
+                Mumbai · Est. 2017
+              </div>
+              <h3 className="mt-8 font-serif text-3xl md:text-4xl font-bold text-white uppercase tracking-tight">
+                Born in Mumbai
+              </h3>
+              <p className="mt-1 font-serif text-lg text-[var(--cream-dark)] italic">
+                built for the world
+              </p>
+              <p className="mt-6 text-[#B0B0B0] text-sm md:text-base leading-relaxed max-w-xl">
+                {aboutCompanyText}
+              </p>
+              <div className="mt-8 h-px w-full max-w-xl bg-white/10" />
+              {/* Stats row */}
+              <div className="mt-8 flex flex-wrap gap-10 md:gap-14">
+                {stats.map((stat, i) => (
+                  <motion.div
+                    key={stat.label}
+                    initial={{ opacity: 0, y: 16 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.2 + i * 0.1, duration: 0.5 }}
+                    className="flex flex-col"
+                  >
+                    <span className="text-2xl md:text-3xl font-display font-bold text-[var(--accent)] tabular-nums">
+                      {stat.value}
+                    </span>
+                    <span className="mt-1 text-[11px] text-[var(--fg-muted)] uppercase tracking-wider font-medium">
+                      {stat.label}
+                    </span>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
 
-          {/* 2x2 grid: The Company, Vision, Mission, Culture */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
-            {aboutSections.map((section, i) => (
-              <AboutCard key={section.id} section={section} delay={i * 0.1} />
-            ))}
-          </div>
-
-          {/* Stats — center aligned, softer presentation */}
-          <div className="mt-16 flex flex-wrap justify-center gap-6 md:gap-10">
-            {stats.map((stat, i) => (
-              <motion.div
-                key={stat.label}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1, duration: 0.6 }}
-                className="relative text-center px-8 py-5 rounded-2xl bg-[var(--bg-card)]/40 backdrop-blur-sm border border-white/[0.06] hover:border-[var(--accent)]/20 hover:bg-[var(--bg-card)]/60 transition-all duration-500 min-w-[160px]"
-              >
-                <AnimatedNumber value={stat.value} />
-                <p className="mt-2 text-[11px] text-[var(--fg-muted)] uppercase tracking-wider font-medium">
-                  {stat.label}
-                </p>
-              </motion.div>
-            ))}
+            {/* Right column: Vision + Mission & Culture cards */}
+            <div className="flex flex-col gap-6 md:gap-8">
+              <AboutRightCard
+                title="Vision"
+                content={aboutVisionText}
+                number="01"
+                delay={0.1}
+              />
+              <AboutRightCard
+                title="Mission & Culture"
+                content={aboutMissionCultureText}
+                number="02"
+                delay={0.2}
+              />
+            </div>
           </div>
         </div>
       </section>
@@ -953,68 +967,64 @@ export default function Home() {
             whileInView="visible"
             viewport={{ once: true }}
             variants={fadeInUp}
-            className="mb-14"
+            className="mb-14 text-center"
           >
             <span className="section-label">People</span>
             <h2 className="mt-4 font-serif text-4xl md:text-5xl font-light text-white">
               The <span className="text-gradient">Team</span>
             </h2>
-            <p className="mt-4 max-w-xl text-[var(--fg-muted)] text-sm md:text-base">
+            <p className="mt-4 max-w-xl text-[var(--fg-muted)] text-sm md:text-base mx-auto">
               Meet the people behind Smiley Films. Click any member to view full
               profile.
             </p>
-            <div className="mt-6 w-16 h-0.5 bg-gradient-to-r from-[var(--accent)] to-transparent" />
+            <div className="mt-6 w-16 h-0.5 bg-gradient-to-r from-[var(--accent)] to-transparent mx-auto" />
           </motion.div>
 
           <div className="relative">
-            {canScrollLeftT && (
-              <button
-                type="button"
-                onClick={() => scrollSlider(teamScrollRef, "left", 0.8)}
-                className="md:hidden absolute left-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 glass flex items-center justify-center text-white hover:bg-[var(--accent)]/30 transition-colors -translate-x-2"
-                aria-label="Previous team member"
+            <button
+              type="button"
+              onClick={() => scrollTeamSlider("left")}
+              className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 glass flex items-center justify-center text-white hover:bg-[var(--accent)]/30 hover:border-[var(--accent)]/40 transition-all duration-300 -translate-x-2 hover:scale-110"
+              aria-label="Previous team member"
+            >
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
               >
-                <svg
-                  className="w-4 h-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M15 19l-7-7 7-7"
-                  />
-                </svg>
-              </button>
-            )}
-            {canScrollRightT && (
-              <button
-                type="button"
-                onClick={() => scrollSlider(teamScrollRef, "right", 0.8)}
-                className="md:hidden absolute right-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 glass flex items-center justify-center text-white hover:bg-[var(--accent)]/30 transition-colors translate-x-2"
-                aria-label="Next team member"
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+            </button>
+            <button
+              type="button"
+              onClick={() => scrollTeamSlider("right")}
+              className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 glass flex items-center justify-center text-white hover:bg-[var(--accent)]/30 hover:border-[var(--accent)]/40 transition-all duration-300 translate-x-2 hover:scale-110"
+              aria-label="Next team member"
+            >
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
               >
-                <svg
-                  className="w-4 h-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 5l7 7-7 7"
-                  />
-                </svg>
-              </button>
-            )}
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </button>
 
             <div
               ref={teamScrollRef}
-              className="flex md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory pb-4 -mx-2 px-2 md:mx-0 md:px-0"
+              className="slider-track flex gap-4 md:gap-6 overflow-x-auto snap-x snap-mandatory pb-4 -mx-2 px-2 md:mx-0 md:px-0"
               style={{ scrollSnapType: "x mandatory" }}
             >
               {teamMembers.map((member, i) => (
@@ -1027,10 +1037,10 @@ export default function Home() {
                 >
                   <Link
                     href={`/team#${member.slug}`}
-                    className="team-card group flex-shrink-0 w-56 md:w-auto md:min-w-0 snap-center block relative"
+                    className="team-card group flex-shrink-0 w-56 md:w-64 snap-center block relative"
                   >
                     <div className="aspect-square overflow-hidden relative border border-[var(--border)] group-hover:border-[var(--accent)]/40 transition-colors duration-300">
-                      <Image
+                      <SafeImage
                         src={member.image}
                         alt={member.name}
                         width={224}
@@ -1077,17 +1087,17 @@ export default function Home() {
             whileInView="visible"
             viewport={{ once: true }}
             variants={fadeInUp}
-            className="mb-14"
+            className="mb-14 text-center"
           >
             <span className="section-label">Coverage</span>
             <h2 className="mt-4 font-serif text-4xl md:text-5xl font-light text-white">
               In the <span className="text-gradient">Press</span>
             </h2>
-            <p className="mt-4 max-w-xl text-[var(--fg-muted)] text-sm md:text-base">
+            <p className="mt-4 max-w-xl text-[var(--fg-muted)] text-sm md:text-base mx-auto">
               News and coverage about Smiley Films. Click an article to read
               more.
             </p>
-            <div className="mt-6 w-16 h-0.5 bg-gradient-to-r from-[var(--accent)] to-transparent" />
+            <div className="mt-6 w-16 h-0.5 bg-gradient-to-r from-[var(--accent)] to-transparent mx-auto" />
           </motion.div>
 
           <div className="relative">
@@ -1211,7 +1221,7 @@ export default function Home() {
         <a
           href="#contact"
           aria-label="Start a conversation"
-          className="flex items-center justify-center w-14 h-14 bg-[var(--accent)] text-white shadow-[0_4px_20px_rgba(192,57,43,0.5),0_8px_32px_rgba(0,0,0,0.3)] hover:shadow-[0_6px_28px_rgba(192,57,43,0.7),0_12px_40px_rgba(0,0,0,0.35)] active:scale-95 transition-all duration-300 animate-float-fab"
+          className="flex items-center justify-center w-14 h-14 rounded-full bg-[var(--accent)] text-white shadow-[0_4px_20px_rgba(192,57,43,0.5),0_8px_32px_rgba(0,0,0,0.3)] hover:shadow-[0_6px_28px_rgba(192,57,43,0.7),0_12px_40px_rgba(0,0,0,0.35)] active:scale-95 transition-all duration-300 animate-float-fab"
         >
           <svg
             className="w-6 h-6"
