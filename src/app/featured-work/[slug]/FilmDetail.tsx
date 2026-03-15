@@ -44,22 +44,13 @@ export default function FilmDetail({ film }: { film: Film }) {
             {/* Right: Synopsis, Release Date, Duration, Cast, Crew, Platform */}
             <div className="flex flex-col space-y-8">
               <div>
-                <span className={labelClass}>Synopsis</span>
-                <p className={valueClass}>{film.synopsis}</p>
-              </div>
-
-              <div>
                 <span className={labelClass}>Release Date</span>
                 <p className={valueClass}>{film.year}</p>
               </div>
-
-              {film.duration && film.duration !== "—" && (
-                <div>
-                  <span className={labelClass}>Duration</span>
-                  <p className={valueClass}>{film.duration}</p>
-                </div>
-              )}
-
+              <div>
+                <span className={labelClass}>Synopsis</span>
+                <p className={valueClass}>{film.synopsis}</p>
+              </div>
               <div>
                 <span className={labelClass}>Cast</span>
                 <p className={valueClass}>
@@ -69,7 +60,7 @@ export default function FilmDetail({ film }: { film: Film }) {
 
               {"crew" in film && film.crew && (
                 <div>
-                  <span className={labelClass}>Crew</span>
+                  <span className={labelClass}>Director</span>
                   <p className={valueClass}>{film.crew}</p>
                 </div>
               )}
@@ -77,22 +68,17 @@ export default function FilmDetail({ film }: { film: Film }) {
               {film.platform && film.platform !== "—" && (
                 <div>
                   <span className={labelClass}>Streaming Platform</span>
-                  <p className={valueClass}>{film.platform}</p>
-                </div>
-              )}
-
-              {"watchLink" in film && film.watchLink && (
-                <div>
-                  <span className={labelClass}>Watch</span>
                   <p className={valueClass}>
+                    {film.platform} (
                     <a
                       href={film.watchLink}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-[var(--accent)] hover:underline"
                     >
-                      Watch on {film.platform}
+                      {film.watchLink}
                     </a>
+                    )
                   </p>
                 </div>
               )}
@@ -106,7 +92,7 @@ export default function FilmDetail({ film }: { film: Film }) {
         <section className="px-6 md:px-12 pb-12 md:pb-16">
           <div className="mx-auto max-w-7xl">
             <h2 className="text-white font-serif text-2xl md:text-3xl font-light mb-6">
-              Trailer
+              Video
             </h2>
             <div className="aspect-video w-full overflow-hidden bg-[var(--bg-card)] border border-[var(--border)]">
               <iframe
@@ -126,7 +112,7 @@ export default function FilmDetail({ film }: { film: Film }) {
         <section className="py-16 md:py-24 px-6 md:px-12 border-t border-[var(--border)]">
           <div className="mx-auto max-w-7xl">
             <h2 className="text-white font-serif text-3xl md:text-4xl font-light uppercase text-center">
-              Other Movies
+              Other Works
             </h2>
             <div className="mt-2 flex justify-center">
               <div className="w-12 h-0.5 bg-[var(--accent)]" />

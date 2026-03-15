@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 
 const fadeInUp = {
@@ -19,6 +20,7 @@ const labelClass =
   "block text-[11px] font-semibold uppercase tracking-wider text-[var(--fg-dim)] mb-2";
 
 export default function CareersPage() {
+  const router = useRouter();
   const [formState, setFormState] = useState<
     "idle" | "sending" | "done" | "error"
   >("idle");
@@ -29,6 +31,7 @@ export default function CareersPage() {
     try {
       await new Promise((r) => setTimeout(r, 800));
       setFormState("done");
+      setTimeout(() => router.push("/"), 1500);
     } catch {
       setFormState("error");
     }

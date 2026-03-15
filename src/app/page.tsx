@@ -18,29 +18,32 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
-const TAGLINE = "Touching Emotional Chords Since 2017";
+const TAGLINE = "Touching Emotional Chords";
 const DESCRIPTION =
-  "Smiley Films is a Mumbai-based production house delivering heartfelt, world-class films and web shows. We tell stories that leave a lasting impact.";
+  "At Smiley Films, every project begins with a story that deserves to be told. We believe cinema has the power to move hearts, reflect society, and travel across cultures.";
 
 // Hero banner slider images (4–5 images, fading backdrop)
 const HERO_BANNER_IMAGES = [
-  "/images/chidiya-1920x1080.webp",
-  "/images/tdp-1920x1080.webp",
-  "/images/meethi-eid-1920x1080.webp",
-  "/images/rmtht-1920x1080.webp",
-  "/images/tara-bhaiya-zindabad-1920x1080.webp",
+  "/images/backdrop/Amruta-Subhash.webp",
+  "/images/backdrop/Hum-hai-India.png",
+  "/images/backdrop/Mahesh-Thakur.png",
+  "/images/backdrop/Shreyash-TDP.png",
+  "/images/backdrop/Shreyash.png",
+  "/images/backdrop/Vinay-Pathak.webp",
 ];
 const BANNER_INTERVAL_MS = 5000;
 const BANNER_FADE_DURATION = 1.2;
 
 const aboutCompanyText =
-  "Smiley Films is a production house engaged in Feature Films, Short Films and Web Content. We bring together strong industry alliances, in-house production, and end-to-end post-production facilities to deliver cinematic excellence that resonates across audiences.";
+  "Smiley Films is a Mumbai-based film studio focused on creating meaningful stories for cinema and digital platforms. From development to final screen, we bring together strong creative vision and thoughtful production to craft films that connect with audiences across cultures.";
 
 const aboutVisionText =
-  "To be the creative force that brings India's diverse stories to a global stage — where authenticity meets craft, and every project resonates with audiences at home and abroad.";
+  "To build a body of work defined by strong storytelling, cinematic craft, and emotional truth.";
 
 const aboutMissionCultureText =
-  "To produce culturally rooted content across Film and Digital, delivering creative excellence through strong collaborations – where varied voices, bold ideas, and driven people come together as one.";
+  "At Smiley Films, storytelling comes first. We work with writers, filmmakers, and collaborators who believe in the power of honest narratives, strong craft, and collaborative filmmaking.";
+
+const DEFAULT_PRESS_IMAGE = "/images/placeholder-poster.svg";
 
 const stats = [
   { value: "30+", label: "Projects" },
@@ -78,6 +81,93 @@ const awards = [
     title: "Best Film",
     event: "Smile International Film Festival",
     location: "New Delhi",
+  },
+];
+
+const testimonials = [
+  {
+    name: "Shabana Azmi",
+    role: "Actor",
+    quote:
+      '"Chidiya: A Rare Precious Pilgrimage Into Precocity" — Shabana Azmi speaks for the film.',
+    source: "In an interview with Subhash K. Jha",
+  },
+  {
+    name: "Anurag Kashyap",
+    role: "Filmmaker",
+    quote: '"I saw and loved Mehran Amrohi\'s Chidiya…"',
+    source: "In an interview with Bollywood Hungama",
+  },
+  {
+    name: "Sharib Hashmi",
+    role: "Actor",
+    quote:
+      "Chidiya bahut pyari aur kamaal ki film hai, kayi jagah par aankhon mein pani aa gaya film dekhkar. Dono bachchon Ayush aur Svar ne kamaal ka kaam kiya hai. Amruta Subhash toh outstanding hain.",
+  },
+  {
+    name: "Harsha Bhogle",
+    role: "Cricket Commentator",
+    quote:
+      "One of my oldest colleagues in the profession is the outstanding cameraperson Taqi. His brother Mehran has made what looks like a very interesting film on two young kids and their desire to play badminton against the odds. Do take a look, the trailer is very nice.",
+  },
+  {
+    name: "Jatin Sapru",
+    role: "Sports Anchor",
+    quote:
+      "Dil ko choone waali kahaani hai… saath mein power of sports… aisi movies banana chahiye — TRAILER OUT NOW!",
+  },
+  {
+    name: "Waseem Barelvi",
+    role: "Urdu Poet & Lyricist",
+    quote:
+      "Saaz, awaaz aur alfaaz jab ek jaan teen qaalib ho jaayein toh taseer ko apna jaam maangne ke liye koi sifaarish nahin chahiye. Azizam Mehran ka yeh filmi geet sunkar mujhe aisa hi laga. Aane wale waqt mein is khaksaarana raaye par Inshallah bahut jald ittefaq ki mohar lagegi. Isi yaqeen ke saath bahut duaein.",
+  },
+  {
+    name: "Shri Lalduhoma",
+    role: "Hon'ble Chief Minister of Mizoram",
+    quote:
+      "It is heartening to know that a film celebrating the dreams, resilience, and imagination of children has touched audiences. I commend your team for crafting a cinematic experience that uplifts and unites — a message most relevant in today's world.",
+  },
+  {
+    name: "Adv. Ashish Shelar",
+    role: "Minister of Information Technology, Government of Maharashtra",
+    quote:
+      "Attended the special pre-release screening of Chidiya, a beautiful and emotionally moving film at Ravindra Natya Mandir. The writer-director has powerfully portrayed childhood dreams and struggles through this film. Extended my best wishes to the entire team for the film's success.",
+  },
+  {
+    name: "Kunwar Danish Ali",
+    role: "Former Member of Parliament & Senior Leader",
+    quote:
+      "As someone who has had the honour of representing Amroha, I am filled with pride to see Chidiya — a beautiful film written and directed by Mehran Amrohi, a true son of our soil. I appeal to everyone to watch and support it. Amroha is proud of you, dear Mehran!",
+  },
+  {
+    name: "Rahul Desai",
+    role: "Film Critic",
+    quote:
+      "Chidiya is a rare indie movie that commits to its simplicity. There is no Amir Khan-coded saviour or social-commentary climax.",
+  },
+  {
+    name: "Dhaval Roy",
+    role: "Film Critic",
+    quote:
+      "Chidiya is a must-watch family fare offering simple yet profound storytelling that warms the heart and leaves you smiling.",
+  },
+  {
+    name: "Subhash K. Jha",
+    role: "Film Critic",
+    quote: "Chidiya: The Most Precious Film Of The Year",
+  },
+  {
+    name: "Sana Farzeen",
+    role: "Film Critic",
+    quote:
+      "Chidiya is a rare gem, it reminds us of why we fell in love with cinema in the first place.",
+  },
+  {
+    name: "Bhawana Somaaya",
+    role: "Film Critic",
+    quote:
+      "Director ko mai sakshaat pranaam karti hoon, itni khoobsurat film banane ke liye.",
   },
 ];
 
@@ -255,11 +345,11 @@ const tickerItems = [
   "•",
   "Short Films",
   "•",
-  "Music Videos",
+  "Feature Films",
   "•",
-  "Branded Content",
+  "Web Series",
   "•",
-  "Corporate Films",
+  "Short Films",
   "•",
   "Feature Films",
   "•",
@@ -267,22 +357,30 @@ const tickerItems = [
   "•",
   "Short Films",
   "•",
-  "Music Videos",
+  "Feature Films",
   "•",
-  "Branded Content",
+  "Web Series",
   "•",
-  "Corporate Films",
+  "Short Films",
+  "•",
+  "Feature Films",
+  "•",
+  "Web Series",
+  "•",
+  "Short Films",
   "•",
 ];
 
 export default function Home() {
-  const featuredScrollRef = useRef<HTMLDivElement>(null);
   const pressScrollRef = useRef<HTMLDivElement>(null);
   const teamScrollRef = useRef<HTMLDivElement>(null);
   const awardScrollRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLElement>(null);
-  const [canScrollLeftF, setCanScrollLeftF] = useState(false);
-  const [canScrollRightF, setCanScrollRightF] = useState(true);
+  const [featuredIndex, setFeaturedIndex] = useState(0);
+  const featuredPaused = useRef(false);
+  const teamPaused = useRef(false);
+  const [testimonialIndex, setTestimonialIndex] = useState(0);
+  const testimonialPaused = useRef(false);
   const [canScrollLeftP, setCanScrollLeftP] = useState(false);
   const [canScrollRightP, setCanScrollRightP] = useState(true);
   const [bannerIndex, setBannerIndex] = useState(0);
@@ -314,19 +412,12 @@ export default function Home() {
 
   useEffect(() => {
     const run = () => {
-      updateScrollState(
-        featuredScrollRef,
-        setCanScrollLeftF,
-        setCanScrollRightF,
-      );
       updateScrollState(pressScrollRef, setCanScrollLeftP, setCanScrollRightP);
     };
     run();
-    featuredScrollRef.current?.addEventListener("scroll", run);
     pressScrollRef.current?.addEventListener("scroll", run);
     window.addEventListener("resize", run);
     return () => {
-      featuredScrollRef.current?.removeEventListener("scroll", run);
       pressScrollRef.current?.removeEventListener("scroll", run);
       window.removeEventListener("resize", run);
     };
@@ -342,6 +433,41 @@ export default function Home() {
     const step = el.clientWidth * stepMultiplier;
     el.scrollBy({ left: dir === "left" ? -step : step, behavior: "smooth" });
   };
+
+  const nextFeatured = () =>
+    setFeaturedIndex((i) => (i + 1) % featuredFilms.length);
+  const prevFeatured = () =>
+    setFeaturedIndex(
+      (i) => (i - 1 + featuredFilms.length) % featuredFilms.length,
+    );
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      if (!featuredPaused.current) nextFeatured();
+    }, 5000);
+    return () => clearInterval(id);
+  }, []);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      if (!teamPaused.current) scrollTeamSlider("right");
+    }, 3500);
+    return () => clearInterval(id);
+  }, []);
+
+  const nextTestimonial = () =>
+    setTestimonialIndex((i) => (i + 1) % testimonials.length);
+  const prevTestimonial = () =>
+    setTestimonialIndex(
+      (i) => (i - 1 + testimonials.length) % testimonials.length,
+    );
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      if (!testimonialPaused.current) nextTestimonial();
+    }, 6000);
+    return () => clearInterval(id);
+  }, []);
 
   /** Awards carousel: always show both arrows, infinite wrap on prev/next */
   const scrollAwardSlider = (dir: "left" | "right") => {
@@ -570,149 +696,133 @@ export default function Home() {
             variants={fadeInUp}
             className="text-center"
           >
-            <span className="section-label">Portfolio</span>
+            <span className="section-label">Showcase</span>
             <h2 className="mt-4 font-serif text-4xl md:text-5xl lg:text-6xl font-light text-white">
               Featured <span className="text-gradient">Work</span>
             </h2>
-            <p className="mt-4 max-w-xl mx-auto text-[var(--fg-muted)] text-sm md:text-base">
-              Select a project for full details — release date, synopsis, cast &
-              crew.
-            </p>
             <div className="mt-6 w-16 h-0.5 bg-gradient-to-r from-[var(--accent)] to-transparent mx-auto" />
           </motion.div>
         </div>
 
-        {/* Full-width slider (no side gap) */}
-        <div className="relative w-full">
-          {canScrollLeftF && (
-            <button
-              type="button"
-              onClick={() => scrollSlider(featuredScrollRef, "left", 1)}
-              className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 glass flex items-center justify-center text-white hover:bg-[var(--accent)]/30 hover:border-[var(--accent)]/40 transition-all duration-300 -translate-x-2 hover:scale-110"
-              aria-label="Previous"
-            >
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15 19l-7-7 7-7"
-                />
-              </svg>
-            </button>
-          )}
-          {canScrollRightF && (
-            <button
-              type="button"
-              onClick={() => scrollSlider(featuredScrollRef, "right", 1)}
-              className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 glass flex items-center justify-center text-white hover:bg-[var(--accent)]/30 hover:border-[var(--accent)]/40 transition-all duration-300 translate-x-2 hover:scale-110"
-              aria-label="Next"
-            >
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
-            </button>
-          )}
-
-          <div
-            ref={featuredScrollRef}
-            className="slider-track flex overflow-x-auto snap-x snap-mandatory pb-4"
-            style={{ scrollSnapType: "x mandatory" }}
+        {/* Full-width infinite carousel */}
+        <div
+          className="relative w-full"
+          onMouseEnter={() => (featuredPaused.current = true)}
+          onMouseLeave={() => (featuredPaused.current = false)}
+        >
+          <button
+            type="button"
+            onClick={prevFeatured}
+            className="absolute left-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 glass flex items-center justify-center text-white hover:bg-[var(--accent)]/30 hover:border-[var(--accent)]/40 transition-all duration-300 hover:scale-110"
+            aria-label="Previous"
           >
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M15 19l-7-7 7-7"
+              />
+            </svg>
+          </button>
+          <button
+            type="button"
+            onClick={nextFeatured}
+            className="absolute right-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 glass flex items-center justify-center text-white hover:bg-[var(--accent)]/30 hover:border-[var(--accent)]/40 transition-all duration-300 hover:scale-110"
+            aria-label="Next"
+          >
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
+          </button>
+
+          <div className="aspect-[10/9] md:aspect-[21/9] relative overflow-hidden bg-[var(--bg)]">
             {featuredFilms.map((film, index) => (
               <Link
                 key={film.slug}
                 href={`/featured-work/${film.slug}`}
-                className="group flex-[0_0_100%] min-w-0 snap-center"
+                className={`group absolute inset-0 transition-opacity duration-700 ease-in-out ${
+                  index === featuredIndex
+                    ? "opacity-100 z-[1] pointer-events-auto"
+                    : "opacity-0 z-0 pointer-events-none"
+                }`}
               >
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.98 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.8 }}
-                  className="aspect-[16/9] overflow-hidden relative group-hover:border-[var(--accent)]/30 transition-colors duration-500"
-                >
-                  <SafeImage
-                    src={film.poster}
-                    alt={film.title}
-                    fill
-                    className="object-cover transition-transform duration-1000 group-hover:scale-105"
-                    sizes="(max-width: 1280px) 100vw, 1280px"
-                  />
-                  {/* Cinematic overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg)] via-[var(--bg)]/20 to-transparent" />
-                  <div className="absolute inset-0 bg-gradient-to-r from-[var(--bg)]/60 via-transparent to-transparent" />
+                <SafeImage
+                  src={film.poster}
+                  alt={film.title}
+                  fill
+                  priority={index <= 1}
+                  className="object-cover transition-transform duration-1000 group-hover:scale-105"
+                  sizes="100vw"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg)] via-[var(--bg)]/20 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-r from-[var(--bg)]/60 via-transparent to-transparent" />
 
-                  {/* Film info overlay */}
-                  <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10">
-                    <h3 className="font-serif text-3xl md:text-4xl mb-3 lg:text-5xl font-light text-white group-hover:text-[var(--accent)] transition-colors duration-300">
-                      {film.title}
-                    </h3>
-                    <div className="flex flex-wrap items-center gap-2">
-                      <span className="inline-flex items-center gap-1.5 bg-[var(--accent)]/90 px-3 py-1 text-white text-[10px] font-semibold tracking-widest uppercase">
-                        {film.category}
-                      </span>
-                      <span className="text-[var(--fg-muted)] text-xs">
-                        {film.runtime}
-                      </span>
-                      {film.platform && (
-                        <>
-                          <span className="text-[var(--accent)]/60">·</span>
-                          <span className="text-[var(--fg-muted)] text-xs">
-                            {film.platform}
-                          </span>
-                        </>
-                      )}
-                      {film.duration && (
-                        <>
-                          <span className="text-[var(--accent)]/60">·</span>
-                          <span className="text-[var(--fg-muted)] text-xs">
-                            {film.duration}
-                          </span>
-                        </>
-                      )}
-                    </div>
-
-                    {/* Hover CTA */}
-                    <div className="mt-4 flex items-center gap-2 text-white/50 group-hover:text-white/90 transition-all duration-300 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100">
-                      <span className="text-xs tracking-widest uppercase font-medium">
-                        View Details
-                      </span>
-                      <svg
-                        className="w-4 h-4"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={1.5}
-                          d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
-                        />
-                      </svg>
-                    </div>
+                <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10">
+                  <h3 className="font-serif text-xl md:text-4xl mb-3 lg:text-5xl font-light text-white group-hover:text-[var(--accent)] transition-colors duration-300">
+                    {film.title}
+                  </h3>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="inline-flex items-center gap-1.5 bg-[var(--accent)]/90 px-3 py-1 text-white text-[10px] font-semibold tracking-widest uppercase">
+                      {film.category}
+                    </span>
+                    {film.platform && (
+                      <>
+                        <span className="text-[var(--accent)]/60">·</span>
+                        <span className="text-[var(--fg-muted)] text-xs">
+                          {film.platform}
+                        </span>
+                      </>
+                    )}
+                    {film.duration && (
+                      <>
+                        <span className="text-[var(--accent)]/60">·</span>
+                        <span className="text-[var(--fg-muted)] text-xs">
+                          {film.duration}
+                        </span>
+                      </>
+                    )}
                   </div>
-                </motion.div>
+
+                  <div className="mt-4 flex items-center gap-2 text-white/50 group-hover:text-white/90 transition-all duration-300 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100">
+                    <span className="text-xs tracking-widest uppercase font-medium">
+                      View Details
+                    </span>
+                    <svg
+                      className="w-4 h-4"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={1.5}
+                        d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
+                      />
+                    </svg>
+                  </div>
+                </div>
               </Link>
             ))}
           </div>
         </div>
+        <div className="absolute bottom-0 left-0 right-0 h-px divider-gradient opacity-60" />
       </section>
 
       {/* ——— AWARDS ——— */}
@@ -774,6 +884,7 @@ export default function Home() {
               <span className="font-serif font-light text-3xl md:text-5xl lg:text-6xl tracking-widest text-[var(--fg-muted)] not-italic normal-case">
                 &amp; Accolades
               </span>
+              <span className="text-[var(--accent)] text-2xl">(Chidiya)</span>
             </h2>
 
             {/* Dot divider — accent red */}
@@ -789,16 +900,6 @@ export default function Home() {
                 />
               ))}
             </div>
-
-            <motion.p
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.5, duration: 0.6 }}
-              className="mt-5 text-[var(--fg-muted)] text-sm max-w-xs mx-auto"
-            >
-              Recognized on global and national stages for cinematic excellence
-            </motion.p>
           </motion.div>
 
           {/* Award cards - click-to-slide carousel, arrows both sides, infinite wrap */}
@@ -859,6 +960,84 @@ export default function Home() {
               ))}
             </div>
           </div>
+
+          {/* Testimonials — one at a time, infinite carousel */}
+          <div
+            className="mt-20 md:mt-28 relative"
+            onMouseEnter={() => (testimonialPaused.current = true)}
+            onMouseLeave={() => (testimonialPaused.current = false)}
+          >
+            <div className="flex items-center justify-center gap-5 mb-8">
+              <div className="h-px w-12 bg-gradient-to-r from-transparent to-[var(--accent)]/50" />
+              <span className="text-[var(--accent)] text-[10px] font-bold tracking-[0.35em] uppercase">
+                Testimonials
+              </span>
+              <div className="h-px w-12 bg-gradient-to-l from-transparent to-[var(--accent)]/50" />
+            </div>
+            <div className="relative max-w-3xl mx-auto min-h-[220px] md:min-h-[200px]">
+              <button
+                type="button"
+                onClick={prevTestimonial}
+                className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 glass flex items-center justify-center text-white hover:bg-[var(--accent)]/30 hover:border-[var(--accent)]/40 transition-all duration-300 -translate-x-2 hover:scale-110"
+                aria-label="Previous testimonial"
+              >
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 19l-7-7 7-7"
+                  />
+                </svg>
+              </button>
+              <button
+                type="button"
+                onClick={nextTestimonial}
+                className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 glass flex items-center justify-center text-white hover:bg-[var(--accent)]/30 hover:border-[var(--accent)]/40 transition-all duration-300 translate-x-2 hover:scale-110"
+                aria-label="Next testimonial"
+              >
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
+              </button>
+              <div
+                key={testimonialIndex}
+                className="flex flex-col items-center justify-center text-center px-4 md:px-12 py-8 transition-opacity duration-700 ease-in-out"
+              >
+                <blockquote className="text-[var(--fg)] text-lg md:text-xl lg:text-2xl font-light leading-relaxed italic">
+                  {testimonials[testimonialIndex]?.quote}
+                </blockquote>
+                <footer className="mt-6">
+                  <p className="text-white font-medium">
+                    {testimonials[testimonialIndex]?.name}
+                  </p>
+                  <p className="text-[var(--accent)] text-sm mt-0.5">
+                    {testimonials[testimonialIndex]?.role}
+                  </p>
+                  {testimonials[testimonialIndex]?.source && (
+                    <p className="text-[var(--fg-muted)] text-xs mt-2">
+                      {testimonials[testimonialIndex]?.source}
+                    </p>
+                  )}
+                </footer>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -889,18 +1068,12 @@ export default function Home() {
               className="relative text-center md:text-left"
             >
               <div className="flex items-center gap-3 mb-4 justify-center md:justify-start">
-                <span className="w-3 h-px bg-[var(--accent)] shrink-0" />
-                <span className="text-[11px] font-semibold tracking-[0.25em] uppercase text-[var(--fg-muted)]">
-                  WHO WE ARE
-                </span>
+                <span className="section-label">Our Story</span>
               </div>
               <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-white uppercase tracking-tight leading-tight">
-                About
+                About us
               </h2>
-              <p className="mt-1 font-serif text-lg md:text-xl text-[var(--cream-dark)] italic">
-                The Company
-              </p>
-              <div className="mt-6 inline-block px-4 py-2 rounded-md bg-[var(--accent)] text-white text-xs font-semibold tracking-widest uppercase mx-auto md:mx-0">
+              <div className="mt-6 inline-block px-4 py-2 rounded-md bg-[var(--accent)] text-white text-xs font-semibold tracking-widest uppercase mx-auto">
                 Mumbai · Est. 2017
               </div>
               <h3 className="mt-8 font-serif text-3xl md:text-4xl font-bold text-white uppercase tracking-tight">
@@ -935,8 +1108,8 @@ export default function Home() {
               </div>
             </motion.div>
 
-            {/* Right column: Vision + Mission & Culture cards */}
-            <div className="flex flex-col gap-6 md:gap-8">
+            {/* Right column: Vision + Mission & Culture cards — top padding aligns first card with "Born in Mumbai" / company block on the left */}
+            <div className="flex flex-col gap-6 md:gap-8 lg:pt-[7.5rem]">
               <AboutRightCard
                 title="Vision"
                 content={aboutVisionText}
@@ -973,14 +1146,14 @@ export default function Home() {
             <h2 className="mt-4 font-serif text-4xl md:text-5xl font-light text-white">
               The <span className="text-gradient">Team</span>
             </h2>
-            <p className="mt-4 max-w-xl text-[var(--fg-muted)] text-sm md:text-base mx-auto">
-              Meet the people behind Smiley Films. Click any member to view full
-              profile.
-            </p>
             <div className="mt-6 w-16 h-0.5 bg-gradient-to-r from-[var(--accent)] to-transparent mx-auto" />
           </motion.div>
 
-          <div className="relative">
+          <div
+            className="relative"
+            onMouseEnter={() => (teamPaused.current = true)}
+            onMouseLeave={() => (teamPaused.current = false)}
+          >
             <button
               type="button"
               onClick={() => scrollTeamSlider("left")}
@@ -1061,7 +1234,7 @@ export default function Home() {
                       <h3 className="font-serif text-base font-light text-white group-hover:text-[var(--accent)] transition-colors duration-300">
                         {member.name}
                       </h3>
-                      <p className="text-[10px] text-[var(--accent)]/70 mt-0.5 tracking-wide">
+                      <p className="text-xs text-[var(--accent)] mt-1 tracking-wide font-medium">
                         {member.designation}
                       </p>
                     </div>
@@ -1093,10 +1266,6 @@ export default function Home() {
             <h2 className="mt-4 font-serif text-4xl md:text-5xl font-light text-white">
               In the <span className="text-gradient">Press</span>
             </h2>
-            <p className="mt-4 max-w-xl text-[var(--fg-muted)] text-sm md:text-base mx-auto">
-              News and coverage about Smiley Films. Click an article to read
-              more.
-            </p>
             <div className="mt-6 w-16 h-0.5 bg-gradient-to-r from-[var(--accent)] to-transparent mx-auto" />
           </motion.div>
 
@@ -1161,19 +1330,21 @@ export default function Home() {
                   className="flex-shrink-0 w-[85vw] sm:w-[70vw] md:w-[380px] snap-center"
                 >
                   <Link href="/press" className="block h-full">
-                    <div className="quote-card glass-card p-7 md:p-8 h-full min-h-[200px] border border-[var(--border)] relative">
-                      {/* Quote mark decoration */}
-                      <div className="absolute top-4 right-6 text-[var(--accent)]/15 text-8xl font-serif leading-none select-none pointer-events-none">
-                        &#8221;
-                      </div>
-                      <p className="text-[var(--fg)] leading-relaxed line-clamp-4 text-sm relative z-10">
-                        &ldquo;{item.quote}&rdquo;
-                      </p>
-                      <div className="mt-5 pt-4 border-t border-[var(--border)] flex items-center gap-3">
-                        <div className="w-0.5 h-4 bg-[var(--accent)]" />
-                        <p className="text-xs text-[var(--accent)] font-semibold tracking-wide">
-                          {item.source}
+                    <div className="quote-card glass-card h-full min-h-[200px] border border-[var(--border)] relative overflow-hidden">
+                      <div className="p-7 md:p-8 relative">
+                        {/* Quote mark decoration */}
+                        <div className="absolute top-4 right-6 text-[var(--accent)]/15 text-8xl font-serif leading-none select-none pointer-events-none">
+                          &#8221;
+                        </div>
+                        <p className="text-[var(--fg)] leading-relaxed line-clamp-4 text-sm relative z-10">
+                          &ldquo;{item.quote}&rdquo;
                         </p>
+                        <div className="mt-5 pt-4 border-t border-[var(--border)] flex items-center gap-3">
+                          <div className="w-0.5 h-4 bg-[var(--accent)]" />
+                          <p className="text-xs text-[var(--accent)] font-semibold tracking-wide">
+                            {item.source}
+                          </p>
+                        </div>
                       </div>
                     </div>
                   </Link>
@@ -1219,7 +1390,7 @@ export default function Home() {
         className="md:hidden fixed bottom-6 right-6 z-30"
       >
         <a
-          href="#contact"
+          href="#contact-form"
           aria-label="Start a conversation"
           className="flex items-center justify-center w-14 h-14 rounded-full bg-[var(--accent)] text-white shadow-[0_4px_20px_rgba(192,57,43,0.5),0_8px_32px_rgba(0,0,0,0.3)] hover:shadow-[0_6px_28px_rgba(192,57,43,0.7),0_12px_40px_rgba(0,0,0,0.35)] active:scale-95 transition-all duration-300 animate-float-fab"
         >

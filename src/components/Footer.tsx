@@ -61,7 +61,7 @@ const CONTACT_PHONE = "+91 22 4578 1660";
 const ADDRESS =
   "1410, Parinee I, Shah Industrial Estate, Off Veera Desai Road, Andheri West, Mumbai 400053";
 const MAP_EMBED_URL =
-  "https://www.google.com/maps?q=Parinee+I+Shah+Industrial+Estate+Veera+Desai+Road+Andheri+West+Mumbai+400053&output=embed";
+  "https://www.google.com/maps?q=1410+Parinee+I+Shah+Industrial+Estate+Off+Veera+Desai+Road+Andheri+West+Mumbai+400053&output=embed";
 
 const footerLinks = [
   { label: "Home", href: "/" },
@@ -70,8 +70,14 @@ const footerLinks = [
   { label: "Team", href: "/#team" },
   { label: "Press", href: "/#press" },
   { label: "Awards", href: "/#awards" },
-  { label: "Gallery", href: "/media/gallery" },
   { label: "Work with us", href: "/careers" },
+];
+
+const policyLinks = [
+  { label: "Cookie Policy", href: "/cookie-policy" },
+  { label: "Privacy Policy", href: "/privacy-policy" },
+  { label: "Terms of Use", href: "/terms-of-use" },
+  { label: "Disclaimer", href: "/disclaimer" },
 ];
 
 const fadeInUp = {
@@ -131,15 +137,12 @@ export default function Footer() {
                 Let&apos;s <span className="text-gradient">Create</span>{" "}
                 Together
               </h2>
-              <p className="mt-4 text-[var(--fg-muted)] max-w-md mx-auto text-sm">
-                Have a project in mind? We&apos;d love to hear from you. Reach
-                out and let&apos;s make something extraordinary.
-              </p>
             </motion.div>
 
             <div className="grid lg:grid-cols-2 gap-12 lg:gap-20">
               {/* Contact info + form */}
               <motion.div
+                id="contact-form"
                 initial={{ opacity: 0, x: -40 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
@@ -197,6 +200,32 @@ export default function Footer() {
 
                 {/* Divider */}
                 <div className="h-px bg-gradient-to-r from-[var(--accent)]/30 to-transparent mb-8" />
+
+                {/* Careers CTA */}
+                <div className="mb-8 flex flex-wrap items-center gap-3">
+                  <span className="text-sm text-[var(--fg-muted)]">
+                    Interested in joining our team?
+                  </span>
+                  <Link
+                    href="/careers"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-md border border-[var(--accent)]/50 text-[var(--accent)] text-xs font-semibold uppercase tracking-wider hover:bg-[var(--accent)]/10 hover:border-[var(--accent)] transition-colors duration-200"
+                  >
+                    Careers
+                    <svg
+                      className="w-3.5 h-3.5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
+                      />
+                    </svg>
+                  </Link>
+                </div>
 
                 {/* Contact form */}
                 <form onSubmit={handleSubmit} className="space-y-4">
@@ -339,7 +368,7 @@ export default function Footer() {
                     height="100%"
                     style={{
                       border: 0,
-                      minHeight: "320px",
+                      minHeight: "200px",
                       filter:
                         "invert(90%) hue-rotate(180deg) saturate(0.3) contrast(1.1)",
                     }}
@@ -347,7 +376,7 @@ export default function Footer() {
                     loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"
                     title="Smiley Films location"
-                    className="w-full h-full min-h-[320px] lg:min-h-[440px]"
+                    className="w-full h-full min-h-[200px] lg:min-h-[280px]"
                   />
                 </div>
 
@@ -372,40 +401,57 @@ export default function Footer() {
 
       {/* Bottom bar */}
       <div className="border-t border-[var(--border)] bg-[var(--bg-elevated)] py-6">
-        <div className="mx-auto max-w-7xl px-6 md:px-12 flex flex-col md:flex-row items-center justify-between gap-5">
-          <Link href="/" className="flex items-center gap-3 group">
-            <span className="relative flex h-9 w-20 flex-shrink-0">
-              <div className="relative w-full h-full bg-black overflow-hidden rounded-sm">
-                <Image
-                  src="/images/logo.png"
-                  alt="Smiley Films"
-                  fill
-                  className="object-contain object-left"
-                  sizes="80px"
-                  priority
-                />
-              </div>
-            </span>
-          </Link>
+        <div className="mx-auto max-w-7xl px-6 md:px-12 flex flex-col gap-4">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-5">
+            <Link href="/" className="flex items-center gap-3 group">
+              <span className="relative flex h-9 w-20 flex-shrink-0">
+                <div className="relative w-full h-full overflow-hidden rounded-sm">
+                  <Image
+                    src="/images/logo.png"
+                    alt="Smiley Films"
+                    fill
+                    className="object-contain object-left"
+                    sizes="80px"
+                    priority
+                  />
+                </div>
+              </span>
+            </Link>
 
-          <p className="text-xs text-[var(--fg-dim)] order-last md:order-none text-center">
-            © {new Date().getFullYear()} Smiley Films. All rights reserved.
-            Mumbai, India.
-          </p>
+            <p className="text-xs text-[var(--fg-dim)] order-last md:order-none text-center">
+              © {new Date().getFullYear()} Smiley Films. All rights reserved.
+              Mumbai, India.
+            </p>
 
-          <nav className="flex items-center gap-4" aria-label="Social media">
-            {socialLinks.map((s) => (
-              <a
-                key={s.label}
-                href={s.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-9 h-9 flex items-center justify-center border border-[var(--border)] text-[var(--fg-muted)] hover:text-[var(--accent)] hover:border-[var(--accent)]/40 transition-all duration-200 hover:scale-110"
-                title={s.label}
+            <nav className="flex items-center gap-4" aria-label="Social media">
+              {socialLinks.map((s) => (
+                <a
+                  key={s.label}
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-9 h-9 flex items-center justify-center border border-[var(--border)] text-[var(--fg-muted)] hover:text-[var(--accent)] hover:border-[var(--accent)]/40 transition-all duration-200 hover:scale-110"
+                  title={s.label}
+                >
+                  <span className="sr-only">{s.label}</span>
+                  {s.icon}
+                </a>
+              ))}
+            </nav>
+          </div>
+
+          <nav
+            className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-xs text-[var(--fg-dim)] border-t border-[var(--border)] pt-4"
+            aria-label="Legal and policies"
+          >
+            {policyLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="hover:text-[var(--accent)] transition-colors duration-200"
               >
-                <span className="sr-only">{s.label}</span>
-                {s.icon}
-              </a>
+                {link.label}
+              </Link>
             ))}
           </nav>
         </div>

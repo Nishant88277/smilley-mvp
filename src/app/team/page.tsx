@@ -76,16 +76,7 @@ export default function TeamPage() {
           ← Back to home
         </Link>
 
-        <header className="text-center mb-16">
-          <h1 className="text-[var(--accent)] text-3xl md:text-4xl font-semibold tracking-wide uppercase">
-            Our Team
-          </h1>
-          <p className="mt-4 max-w-xl mx-auto text-[var(--fg-muted)]">
-            The people behind Smiley Films.
-          </p>
-        </header>
-
-        <div className="space-y-20 md:space-y-28">
+        <div className="space-y-20 md:space-y-28 mt-16">
           {teamMembers.map((member) => (
             <div
               key={member.slug}

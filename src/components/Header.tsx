@@ -9,11 +9,10 @@ import { motion, AnimatePresence } from "framer-motion";
 const navLinks = [
   { href: "/", label: "Home", anchor: "home" },
   { href: "/#featured-work", label: "Featured Work", anchor: "featured-work" },
+  { href: "/#awards", label: "Awards", anchor: "awards" },
   { href: "/#about", label: "About Us", anchor: "about" },
   { href: "/#team", label: "Team", anchor: "team" },
   { href: "/#press", label: "Press", anchor: "press" },
-  { href: "/#awards", label: "Awards", anchor: "awards" },
-  { href: "/careers", label: "Careers", anchor: null },
 ];
 
 const SECTION_IDS = [
@@ -103,7 +102,6 @@ export default function Header() {
       if (href === "/") return pathname === "/";
       if (pathname === "/team" && href === "/#team") return true;
       if (pathname === "/press" && href === "/#press") return true;
-      if (pathname === "/careers" && href === "/careers") return true;
       return false;
     }
     if (href === "/" && anchor === "home") return activeSection === "home";
@@ -122,7 +120,7 @@ export default function Header() {
         {/* Logo */}
         <Link href="/" className="relative z-10 flex items-center gap-3 group">
           <span className="relative flex h-9 w-20 flex-shrink-0 items-center justify-center transition-transform duration-300 group-hover:scale-105">
-            <div className="relative w-full h-full bg-black overflow-hidden rounded-sm">
+            <div className="relative w-full h-full overflow-hidden rounded-sm">
               <Image
                 src="/images/logo.png"
                 alt="Smiley Films"

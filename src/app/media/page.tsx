@@ -2,8 +2,11 @@ import Link from "next/link";
 
 const mediaLinks = [
   { href: "/media/press", label: "Press", description: "News and coverage" },
-  { href: "/media/awards", label: "Awards", description: "Recognition and accolades" },
-  { href: "/media/gallery", label: "Gallery", description: "Photos and stills" },
+  {
+    href: "/media/awards",
+    label: "Awards",
+    description: "Recognition and accolades",
+  },
 ];
 
 export default function MediaPage() {
@@ -30,7 +33,9 @@ export default function MediaPage() {
               <h2 className="text-xl font-medium text-[var(--fg)] group-hover:text-[var(--accent)] transition-colors">
                 {item.label}
               </h2>
-              <p className="mt-2 text-sm text-[var(--fg-muted)]">{item.description}</p>
+              <p className="mt-2 text-sm text-[var(--fg-muted)]">
+                {item.description}
+              </p>
               <span className="mt-4 inline-flex items-center gap-2 text-[var(--accent)] text-sm font-medium">
                 View →
               </span>
