@@ -7,6 +7,25 @@ const labelClass =
   "text-[var(--accent)] text-xs font-bold uppercase tracking-widest mb-2 block";
 const valueClass = "text-white text-sm md:text-base leading-relaxed";
 
+/** Convert any YouTube URL (youtu.be, watch, embed) to embed URL for iframes. */
+function youtubeEmbedUrl(url: string): string {
+  try {
+    const u = new URL(url);
+    if (u.hostname === "youtu.be") {
+      const id = u.pathname.slice(1).split("/")[0];
+      return id ? `https://www.youtube.com/embed/${id}` : url;
+    }
+    if (u.hostname.includes("youtube.com")) {
+      if (u.pathname.startsWith("/embed/")) return url;
+      const v = u.searchParams.get("v");
+      return v ? `https://www.youtube.com/embed/${v}` : url;
+    }
+  } catch {
+    // invalid URL
+  }
+  return url;
+}
+
 export default function FilmDetail({ film }: { film: Film }) {
   const otherFilms = featuredFilms.filter((f) => f.slug !== film.slug);
 
@@ -32,7 +51,7 @@ export default function FilmDetail({ film }: { film: Film }) {
             {/* Left: portrait poster — height aligns with right text block */}
             <div className="relative w-full h-full min-h-[420px] lg:min-h-0 max-w-md mx-auto lg:mx-0 lg:max-w-none overflow-hidden">
               <SafeImage
-                src={film.posterPortrait}
+                src={film.posterPortrait || "/images/placeholder-poster.svg"}
                 alt={film.title}
                 fill
                 className="object-contain object-top"
@@ -43,20 +62,26 @@ export default function FilmDetail({ film }: { film: Film }) {
 
             {/* Right: Synopsis, Release Date, Duration, Cast, Crew, Platform */}
             <div className="flex flex-col space-y-8">
-              <div>
-                <span className={labelClass}>Release Date</span>
-                <p className={valueClass}>{film.year}</p>
-              </div>
-              <div>
-                <span className={labelClass}>Synopsis</span>
-                <p className={valueClass}>{film.synopsis}</p>
-              </div>
-              <div>
-                <span className={labelClass}>Cast</span>
-                <p className={valueClass}>
-                  {film.cast.length > 0 ? film.cast.join(", ") : "—"}
-                </p>
-              </div>
+              {film.year && (
+                <div>
+                  <span className={labelClass}>Release Date</span>
+                  <p className={valueClass}>{film.year}</p>
+                </div>
+              )}
+              {film.synopsis && (
+                <div>
+                  <span className={labelClass}>Synopsis</span>
+                  <p className={valueClass}>{film.synopsis}</p>
+                </div>
+              )}
+              {film.cast && film.cast.length > 0 && (
+                <div>
+                  <span className={labelClass}>Cast</span>
+                  <p className={valueClass}>
+                    {film.cast.length > 0 ? film.cast.join(", ") : "—"}
+                  </p>
+                </div>
+              )}
 
               {"crew" in film && film.crew && (
                 <div>
@@ -67,18 +92,19 @@ export default function FilmDetail({ film }: { film: Film }) {
 
               {film.platform && film.platform !== "—" && (
                 <div>
-                  <span className={labelClass}>Streaming Platform</span>
+                  <span className={labelClass}>Watch it</span>
                   <p className={valueClass}>
-                    {film.platform} (
-                    <a
-                      href={film.watchLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-[var(--accent)] hover:underline"
-                    >
-                      {film.watchLink}
-                    </a>
-                    )
+                    {film.platform}{" "}
+                    {(film.watchLink || film.trailerUrl) && (
+                      <a
+                        href={film.watchLink || film.trailerUrl || "#"}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[var(--accent)] hover:underline"
+                      >
+                        Watch Now
+                      </a>
+                    )}
                   </p>
                 </div>
               )}
@@ -96,7 +122,7 @@ export default function FilmDetail({ film }: { film: Film }) {
             </h2>
             <div className="aspect-video w-full overflow-hidden bg-[var(--bg-card)] border border-[var(--border)]">
               <iframe
-                src={film.trailerUrl}
+                src={youtubeEmbedUrl(film.trailerUrl)}
                 title={`${film.title} trailer`}
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen

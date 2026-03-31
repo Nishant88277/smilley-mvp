@@ -208,13 +208,13 @@ function AwardCard({
           alt=""
           width={600}
           height={600}
-          className="w-full h-full max-w-[88%] max-h-[88%] object-contain opacity-90 mix-blend-lighten"
+          className="w-full h-full max-w-[100%] max-h-[100%] object-contain opacity-90 mix-blend-lighten"
           aria-hidden
         />
       </div>
 
       {/* Text content - above image with backdrop for readability */}
-      <div className="relative z-20 flex flex-col items-center max-w-[68%] px-4 py-5 rounded-lg bg-black/50 backdrop-blur-sm">
+      <div className="relative z-20 flex flex-col items-center max-w-[68%] py-5 rounded-lg">
         <p className="text-[var(--gold-light)] text-[10px] font-bold uppercase tracking-[0.35em] mb-1">
           Winner
         </p>
@@ -878,7 +878,7 @@ export default function Home() {
             </div>
 
             {/* Headline */}
-            <h2 className="relative font-display text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight uppercase leading-none text-[var(--fg)]">
+            <h2 className="relative font-serif text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-none text-[var(--fg)]">
               Awards
               <br />
               <span className="font-serif font-light text-3xl md:text-5xl lg:text-6xl tracking-widest text-[var(--fg-muted)] not-italic normal-case">
@@ -903,7 +903,7 @@ export default function Home() {
           </motion.div>
 
           {/* Award cards - click-to-slide carousel, arrows both sides, infinite wrap */}
-          <div className="mt-14 relative">
+          <div className="mt-14 relative mx-auto max-w-[948px] md:max-w-[1084px]">
             <button
               type="button"
               onClick={() => scrollAwardSlider("left")}
@@ -947,7 +947,7 @@ export default function Home() {
 
             <div
               ref={awardScrollRef}
-              className="slider-track flex gap-6 md:gap-8 overflow-x-auto snap-x snap-mandatory pb-4"
+              className="slider-track w-full flex gap-6 md:gap-8 overflow-x-auto snap-x snap-mandatory pb-4"
               style={{ scrollSnapType: "x mandatory" }}
             >
               {awards.map((award, i) => (
@@ -1070,24 +1070,15 @@ export default function Home() {
               <div className="flex items-center gap-3 mb-4 justify-center md:justify-start">
                 <span className="section-label">Our Story</span>
               </div>
-              <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-white uppercase tracking-tight leading-tight">
-                About us
+              <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight leading-tight">
+                Who we are
               </h2>
-              <div className="mt-6 inline-block px-4 py-2 rounded-md bg-[var(--accent)] text-white text-xs font-semibold tracking-widest uppercase mx-auto">
-                Mumbai · Est. 2017
-              </div>
-              <h3 className="mt-8 font-serif text-3xl md:text-4xl font-bold text-white uppercase tracking-tight">
-                Born in Mumbai
-              </h3>
-              <p className="mt-1 font-serif text-lg text-[var(--cream-dark)] italic">
-                built for the world
-              </p>
               <p className="mt-6 text-[#B0B0B0] text-sm md:text-base leading-relaxed max-w-xl">
                 {aboutCompanyText}
               </p>
               <div className="mt-8 h-px w-full max-w-xl bg-white/10" />
               {/* Stats row */}
-              <div className="mt-8 flex flex-wrap gap-10 md:gap-14">
+              <div className="mt-8 flex flex-wrap gap-10 md:gap-14 justify-center md:justify-start">
                 {stats.map((stat, i) => (
                   <motion.div
                     key={stat.label}
@@ -1109,7 +1100,7 @@ export default function Home() {
             </motion.div>
 
             {/* Right column: Vision + Mission & Culture cards — top padding aligns first card with "Born in Mumbai" / company block on the left */}
-            <div className="flex flex-col gap-6 md:gap-8 lg:pt-[7.5rem]">
+            <div className="flex flex-col gap-6 md:gap-8">
               <AboutRightCard
                 title="Vision"
                 content={aboutVisionText}
@@ -1117,7 +1108,7 @@ export default function Home() {
                 delay={0.1}
               />
               <AboutRightCard
-                title="Mission & Culture"
+                title="Culture"
                 content={aboutMissionCultureText}
                 number="02"
                 delay={0.2}

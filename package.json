@@ -10,7 +10,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "deploy": "npx netlify deploy --prod --build"
+    "deploy": "rm -rf .next && npx netlify deploy --prod --build",
+    "deploy:clean": "rm -rf .next node_modules/.cache && npm run build && npx netlify deploy --prod"
   },
   "dependencies": {
     "framer-motion": "^12.30.0",
