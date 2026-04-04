@@ -29,6 +29,16 @@ export const teamMembers: {
     socialLinks: [],
   },
   {
+    slug: "amrita-sengupta",
+    name: "Amrita Sengupta",
+    designation: "Head of Content & Creative Strategy",
+    image: "/images/teams/amrita_sengupta.png",
+    description:
+      "Leads content strategy and development, overseeing concept creation and script development across projects, with experience across audio, OTT, and broadcast.",
+    imdb: "",
+    socialLinks: [],
+  },
+  {
     slug: "faqhrul-husaini",
     name: "Faqhrul Husaini",
     designation: "Head of Operations",
@@ -51,21 +61,11 @@ export const teamMembers: {
   {
     slug: "vinit-vyas",
     name: "Vinit Vyas",
-    designation: "Head of Content & Development",
+    designation: "Head of script Development",
     image: "/images/teams/Vinit Vyas.png",
     description:
       "Leads content strategy, concept development, script evaluation, and narrative pipeline for upcoming projects.",
     imdb: "https://www.imdb.com/name/nm2793535/",
-    socialLinks: [],
-  },
-  {
-    slug: "amrita-sengupta",
-    name: "Amrita Sengupta",
-    designation: "Head of Content & Creative Strategy",
-    image: "/images/teams/amrita_sengupta.png",
-    description:
-      "Leads content strategy and development, overseeing concept creation and script development across projects, with experience across audio, OTT, and broadcast.",
-    imdb: "",
     socialLinks: [],
   },
 ];
