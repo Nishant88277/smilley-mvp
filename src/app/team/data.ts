@@ -58,6 +58,16 @@ export const teamMembers: {
     imdb: "https://www.imdb.com/name/nm2793535/",
     socialLinks: [],
   },
+  {
+    slug: "amrita-sengupta",
+    name: "Amrita Sengupta",
+    designation: "Head of Content & Creative Strategy",
+    image: "/images/teams/amrita_sengupta.png",
+    description:
+      "Leads content strategy and development, overseeing concept creation and script development across projects, with experience across audio, OTT, and broadcast.",
+    imdb: "",
+    socialLinks: [],
+  },
 ];
 
 export type TeamMember = (typeof teamMembers)[number];
